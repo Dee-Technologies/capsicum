@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300;600&display=swap');
+
+body {
+    background-color: #fafafa;
+}
+
+.capsicumName {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: center;
+    padding-top: 10vh;
+    font-weight: 600;
+    color: #707070;
+}
+
+.fileInput {
+    text-align: center;
+    padding-top: 2.5vh;
+}
+
+.dragAndDropText {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: center;
+    padding-top: 5vh;
+    font-weight: 300;
+    font-size: 4vh;
+    color: #707070;
+}
+
+.buildCapsicumBtn {
+    text-align: center;   
+    padding-top: 1vh;
+}
+
+.filesSelected {
+    padding-top: 3vh;
+    text-align: center;
+}

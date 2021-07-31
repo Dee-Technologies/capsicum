@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300;600&display=swap');
+
+body {
+    background-color: #fafafa;
+}
+
+@-webkit-keyframes pulse {
+    0% { box-shadow:0 0 8px #d01717, inset 0 0 8px #d01717; }
+    20% { box-shadow:0 0 24px #f5365c, inset 0 0 24px #f5365c; }
+    40% { box-shadow:0 0 8px #11cdef, inset 0 0 8px #11cdef; }
+    60% { box-shadow:0 0 24px #11cdef, inset 0 0 24px #11cdef;}
+    80% { box-shadow:0 0 8px #f5365c, inset 0 0 8px #f5365c; }
+    100% { box-shadow:0 0 8px #d01717, inset 0 0 8px #d01717; }
+  }
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } 
+  .bg {
+    width: 160px;
+    height: 160px;
+    background: #806FBF;
+    position: absolute;
+    border-radius: 10%;
+    overflow: hidden;
+    display: flex;
+    animation: anim 2s;
+    animation-iteration-count: infinite;
+  }
+  
+  .c {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: #F26666;
+    border-radius: 10%;
+  }
+  
+  .r1 {
+    background: #2A1D59;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 10%;
+    transform: translateX(-50px);
+  }
+  
+  .r2 {
+    background: #fff58f;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 10%;
+    transform: translateX(50px);
+  }
+  
+  .line {
+    width: 80px;
+    height: 80px;
+    border-radius: 10%;
+    background: transparent;
+    position: absolute;
+    border: 20px solid transparent;
+    border-bottom-color: #fff58f;
+    border-right-color: #fff58f;
+    transform: rotate(45deg);
+  }
+
+  .capsicumPosition {
+      text-align: center;
+      position: absolute;
+      display: flex-end;
+      padding-top: 45vh;
+      padding-left: 68vh;
+  }
+  
+  @keyframes anim {
+    0% {
+      transform: rotate(0deg) sacle(1);
+    }
+    25% {
+      transform: rotate(180deg) scale(1.3);
+    }
+    50% {
+      transform: rotate(360deg) scale(1.3);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  @keyframes blink {
+      0% {
+          opacity: 0%;
+      }
+
+      50% {
+          opacity: 1;
+      }
+
+      100% {
+          opacity: 0;
+      }
+  }
+  
+.capsicumName {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: center;
+    padding-top: 10vh;
+    font-weight: 600;
+    text-align: center;
+    color: #2A1D59;
+}
+
+.tapToExpand {
+    text-align: center;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    animation: blink 2s;
+    animation-iteration-count: infinite;
+    color: #2A1D59;
+}
+
+.fileInput {
+    text-align: center;
+    padding-top: 2.5vh;
+}
+
+.dragAndDropText {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: center;
+    padding-top: 5vh;
+    font-weight: 300;
+    font-size: 4vh;
+    color: #707070;
+}
+
+.buildCapsicumBtn {
+    text-align: center;   
+    padding-top: 15vh; 
+}
