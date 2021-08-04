@@ -13,6 +13,12 @@ class CapsuleMaker extends React.Component {
             files: []
         }
     }
+
+    componentDidMount() {
+        // For testing purposes
+        localStorage.clear();
+    }
+    
     selectFiles() {
         // this.refs.fileSelector;
     }
@@ -45,6 +51,8 @@ class CapsuleMaker extends React.Component {
     // Build capsicum will send 
     buildCapsicum() {
         // For now, send stuff to local storage
+        localStorage.setItem('files', this.state.files);
+        window.location = "/capsule-viewer";
     }
 
     render() {
@@ -71,7 +79,7 @@ class CapsuleMaker extends React.Component {
                             <p ref="filesSelected" className="filesSelected"></p>
                         </div>
                         <div className="buildCapsicumBtn">
-                                <Button className="btn-1 ml-1" color="success" type="button">Build Capsicum</Button>
+                                <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
                         </div>
                     </div>
                 </Container> 
