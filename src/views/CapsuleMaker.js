@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from "reactstrap";
 import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
-
+import Inputs from './IndexSections/Inputs.js';
 import '../assets/scss/capsule-maker.scss';
 import Container from 'reactstrap/lib/Container';
 
@@ -52,6 +52,7 @@ class CapsuleMaker extends React.Component {
               ps.push(this.fileToBlob(file));              
             }
         }
+        
         Promise.all(ps).then(items => {
             this.setState({
                 files: items
@@ -76,8 +77,14 @@ class CapsuleMaker extends React.Component {
         // Set file upload to be none
         this.setState({
             fileUploadActive: "none",
-            mediaEditorActive: "block"
+            mediaEditorActive: "flex"
         })
+    }
+
+    // Pushes data captured from input fields for current piece of displayed
+    // media and sets the next one to the display
+    nextImage() {
+        // Setting the next image to display
     }
 
     render() {
@@ -85,7 +92,7 @@ class CapsuleMaker extends React.Component {
             <div>
                 <br></br>
                 <br></br>
-                <Container style={{border: "1px solid #707070", width: "100%", height: "80vh", borderRadius: "10px", backgroundColor: "#fafafa"}} >
+                <Container style={{border: "1px solid #707070", width: "200vh", height: "80vh", borderRadius: "10px", backgroundColor: "#fafafa"}} >
                     <div 
                         onDrop={(e) => this.addFiles(e)}
                         onDragOver={(e) => { e.preventDefault();}}
@@ -110,8 +117,18 @@ class CapsuleMaker extends React.Component {
                         </div> 
                     </div>
                     
-                    <div style={{display: this.state.mediaEditorActive}}>
-                        <img src={this.state.files[this.state.currentFileIdx]}></img>
+                    <div style={{display: this.state.mediaEditorActive, flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-evenly", height: "100%", width: "100%", alignItems: "center"}}>
+                        <div style={{flexDirection: "column"}}>
+                            <img src={this.state.files[this.state.currentFileIdx]} style={{objectFit: "cover", height: "60vh", width: "60vh", borderRadius: "10px"}}></img>
+                        </div>
+                        <div style={{flexDirection: "column", width: "100vh"}}>
+                            <h1 className="capsicumName"  style={{textAlign: "left", marginLeft: "5vh"}}contentEditable>Image Title</h1>
+                            <textarea style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}>
+                            </textarea>
+                            <div className="buildCapsicumBtn">
+                                <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
+                            </div> 
+                        </div>  
                     </div>
                     <Particles 
                         options={{
