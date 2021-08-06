@@ -2,7 +2,7 @@ import React from 'react';
 // import Button from './IndexSections/Buttons.js';
 import { Button } from "reactstrap";
 import TextField from '@material-ui/core/TextField';
-import Particles from 'react-particles-js';
+import Particles from 'react-tsparticles';
 
 import '../assets/scss/capsule-viewer.scss';
 import Container from 'reactstrap/lib/Container';
@@ -18,6 +18,7 @@ class CapsuleViewer extends React.Component {
             capsuleOpened: false,
             particleVisiblity: "hidden"
         }
+        this.particlesLoaded = this.particlesLoaded.bind(this);
     }
 
     openCapsule() {
@@ -26,13 +27,20 @@ class CapsuleViewer extends React.Component {
             particleVisiblity: "visible"
         }, () => {
             this.refs.capsi.style.display = "none";
-            // console.log(this.refs.capsicumParticles.props.style);
-            console.log(this.refs.capsicumParticles.style.display);
         })
     }
 
-    clickeri() {
-        alert('hot')
+    particlesLoaded(container) {
+        console.log(container);
+        container.addClickHandler((event, particles) => this.particleClicked(event, particles))
+    }
+
+    particleClicked(event, particles) {
+        console.log(event, particles)
+    }
+
+    particlesInit(main) {
+        console.log(main)
     }
 
     render() {
@@ -40,37 +48,39 @@ class CapsuleViewer extends React.Component {
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container style={{}}>
-                    <Particles
-                    params={{
-                        "particles": {
-                            "number": {
-                                "value": 8,
-                                "density": {
-                                    "enable": true,
-                                    "value_area": 800
+                    {/* <Particles
+                    init={(m) => this.particlesInit(m)} 
+                    loaded={this.particlesLoaded}
+                    options={{
+                        particles: {
+                            number: {
+                                value: 8,
+                                density: {
+                                    enable: true,
+                                    value_area: 800
                                 }
                             },
-                            "line_linked": {
-                                "enable": false
+                            line_linked: {
+                                enable: false
                             },
-                            "move": {
-                                "speed": 1,
-                                "out_mode": "out"
+                            move: {
+                                speed: 1,
+                                out_mode: "out"
                             },
-                            "shape": {
-                                "type": [
+                            shape: {
+                                type: [
                                     "image",
                                 ],
-                                "images": [
+                                images: [
                                     {
-                                        "src": testPhotoOne,
-                                        "height": 10,
-                                        "width": 10
+                                        src: testPhotoOne,
+                                        height: 10,
+                                        width: 10
                                     },
                                     {
-                                        "src": testPhotoTwo,
-                                        "height": 10,
-                                        "width": 10
+                                        src: testPhotoTwo,
+                                        height: 10,
+                                        width: 10
                                     }
                                 ]
                             },
@@ -88,18 +98,131 @@ class CapsuleViewer extends React.Component {
                                 }
                             }
                         },
-                        "retina_detect": false
-                    }} 
-
-                    options={{
-                        interactivity: {
-                          detectsOn: "canvas",
-                          events: {
-                            onClick: {
-                              enable: true,
+                        retina_detect: false
+                    }}  */}
+                    <Particles 
+                        init={(m) => this.particlesInit(m)} 
+                        loaded={(c) => this.particlesLoaded(c)}
+                        
+                        
+                        options={{
+                        fpsLimit: 60,
+                        backgroundMode: {
+                        enable: true,
+                        zIndex: 0
+                        },
+                        particles: {
+                        number: {
+                            value: 80,
+                            density: {
+                            enable: true,
+                            area: 800
                             }
-                          }
+                        },
+                        color: {
+                            value: "#ff0000",
+                            animation: {
+                            enable: true,
+                            speed: 20,
+                            sync: true
+                            }
+                        },
+                        shape: {
+                            type: [
+                                "image",
+                                "circle"
+                            ],
+                            images: [
+                                {
+                                    src: testPhotoOne,
+                                },
+                                {
+                                    src: testPhotoTwo,
+                                } 
+                            ]
+                        },
+                        stroke: {
+                            width: 0
+                        },
+                        opacity: {
+                            value: 0.5,
+                            random: false,
+                            animation: {
+                                enable: false,
+                                speed: 3,
+                                minimumValue: 0.1,
+                                sync: false
+                            }
+                        },
+                        size: {
+                            value: 20,
+                            random: true,
+                            animation: {
+                                enable: false,
+                                speed: 10,
+                                minimumValue: 0.1,
+                                sync: true
+                            }
+                        },
+                        links: {
+                            enable: true,
+                            distance: 100,
+                            color: "#d01717",
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 6,
+                            direction: "none",
+                            random: false,
+                            straight: false,
+                            outMode: "out",
+                            attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                            }
                         }
+                        },
+                        interactivity: {
+                        detectsOn: "canvas",
+                        events: {
+                            onClick: {
+                                enable: true,
+                                mode: "push"
+                            },
+                            // onHover: {
+                            //     enable: true,
+                            //     mode: "repulse"
+                            // },
+                            resize: true
+                        },
+                        modes: {
+                            grab: {
+                            distance: 400,
+                            links: {
+                                opacity: 1
+                            }
+                            },
+                            bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 0.8
+                            },
+                            repulse: {
+                            distance: 200
+                            },
+                            push: {
+                            quantity: 4
+                            },
+                            remove: {
+                            quantity: 2
+                            }
+                        }
+                        },
+                        detectRetina: true,
                     }}
 
                     style={{
@@ -108,75 +231,15 @@ class CapsuleViewer extends React.Component {
                         left: "0",
                         top: "0"
                     }}
-
-                    onClick={() => {console.log("click")}}
-                    />
-                     <Particles
-                            params={{
-                                "particles": {
-                                    "number": {
-                                        "value": 160,
-                                        "density": {
-                                            "enable": false
-                                        }
-                                    },
-                                    "size": {
-                                        "value": 3,
-                                        "random": true,
-                                        "anim": {
-                                            "speed": 4,
-                                            "size_min": 0.3
-                                        }
-                                    },
-                                    "line_linked": {
-                                        "enable": false
-                                    },
-                                    "move": {
-                                        "random": true,
-                                        "speed": 1,
-                                        "direction": "top",
-                                        "out_mode": "out"
-                                    },
-                                    "color": {
-                                        "value": "#d01717"
-                                    }
-                                },
-                                "interactivity": {
-                                    "events": {
-                                        "onhover": {
-                                            "enable": true,
-                                            "mode": "bubble"
-                                        },
-                                        "onclick": {
-                                            "enable": true,
-                                            "mode": "repulse"
-                                        }
-                                    },
-                                    "modes": {
-                                        "bubble": {
-                                            "distance": 250,
-                                            "duration": 2,
-                                            "size": 0,
-                                            "opacity": 0
-                                        },
-                                        "repulse": {
-                                            "distance": 400,
-                                            "duration": 4
-                                        }
-                                    }
-                                }
-                        }} 
-
-                        style={{
+                    /> 
+                    </Container>
+                </div>
+                {/* style={{
                             visibility: this.state.particleVisiblity,
                             position: "absolute",
                             left: "0",
                             top: "0"
-                        }}
-
-                    />
-                    </Container>
-                </div>
+                        }} */}
                 <div ref="capsi" style={{display: "visible"}}>
                     <Container onClick={() => this.openCapsule()}>
                         <div class="capsicumPosition" ref="capsicum">
