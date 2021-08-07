@@ -7,10 +7,17 @@ import Inputs from './IndexSections/Inputs.js';
 import '../assets/scss/capsule-maker.scss';
 import Container from 'reactstrap/lib/Container';
 
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
+
+import nanoid from 'nanoid';
+
 class CapsuleMaker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            capsicumName: "Untitled Capsicum", // Capsicum Name
             files: [], // Array storing all the user input files
             fileUploadActive: "block", // The css display status for the file upload section
             currentFileIdx: 0, // Stores the index of the current file being observed in the builder
@@ -26,6 +33,18 @@ class CapsuleMaker extends React.Component {
     componentDidMount() {
         // For testing purposes
         localStorage.clear();
+
+        // Firebase setup
+        firebase.initializeApp({
+            apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
+            authDomain: "capsicum-7b458.firebaseapp.com",
+            databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "capsicum-7b458",
+            storageBucket: "capsicum-7b458.appspot.com",
+            messagingSenderId: "720103387844",
+            appId: "1:720103387844:web:fec433842c266a94df0f91",
+            measurementId: "G-4ZML2Q9T9V"
+        });
     }
 
     openFileExplorer() {
@@ -76,13 +95,6 @@ class CapsuleMaker extends React.Component {
                 })   
             }
         })
-    }
-
-    // Build capsicum will send 
-    buildCapsicum() {
-        // For now, send stuff to local storage
-        localStorage.setItem('files', this.state.files);
-        window.location = "/capsule-viewer";
     }
 
     // Verifies and completes the file upload step.
@@ -146,7 +158,38 @@ class CapsuleMaker extends React.Component {
 
     // Builds Capsicum object and sends to database
     buildCapsicum() {
-        // Adding final data to 
+        // Adding final collectedData to overall mediaData array
+        var collectedData = {
+            name: this.refs.imageName.innerText,
+            description: this.state.imageDescription,
+            img: this.state.files[this.state.currentFileIdx]
+        }
+
+        var currentMediaData = this.state.mediaData;
+        currentMediaData.push(collectedData);
+
+        this.setState({
+            mediaData: currentMediaData
+        }, () => {
+            const capsicumID = nanoid();
+
+            var capsicum = {
+                capsicumName: this.state.capsicumName,
+                capsicumID: capsicumID,
+                media: this.state.mediaData
+            }
+
+            var firebaseDB = firebase.database();
+
+            firebase.auth().signInAnonymously()
+            .then(() => {
+                firebaseDB.ref('capsicums/' + capsicumID).set(capsicum);  
+            })
+            .catch(function(error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
+        })
     }
 
     render() {
