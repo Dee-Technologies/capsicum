@@ -54,7 +54,7 @@ class CapsuleMaker extends React.Component {
     }
 
     openFileExplorer() {
-        this.refs.fileBrowser.checked = true;
+        this.refs.fileBrowser.click();
     }
 
     // Returns file blob
@@ -67,7 +67,8 @@ class CapsuleMaker extends React.Component {
         }) 
     }
 
-    addFiles(e) {
+    // Adds files from a drop event
+    addFilesFromDrop(e) {
         e.preventDefault();
         console.log(e.dataTransfer.items);
 
@@ -80,6 +81,37 @@ class CapsuleMaker extends React.Component {
               var file = e.dataTransfer.items[i].getAsFile();
               ps.push(this.fileToBlob(file));              
             }
+        }
+        
+        Promise.all(ps).then(items => {
+            if (items.length === 1) {
+                this.setState({
+                    files: items,
+                    buildCapsicumButtonActive: "block"
+                }, () => {
+                    console.log(this.state.files)
+                    this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
+                })   
+            } else {
+                this.setState({
+                    files: items,
+                    nextButtonActive: "block"
+                }, () => {
+                    console.log(this.state.files)
+                    this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
+                })   
+            }
+        })
+    }
+
+    addFilesFromUpload(e) {
+        var ps = [];
+
+        // Iterate over dropped in files and add them to state
+        for (var i = 0; i < e.target.files.length; i++) {
+            // If dropped items aren't files, reject them
+            var file = e.target.files[i];
+            ps.push(this.fileToBlob(file));              
         }
         
         Promise.all(ps).then(items => {
@@ -273,7 +305,7 @@ class CapsuleMaker extends React.Component {
                 <div style={{opacity: this.state.pageOpacity}}>
                     <Container style={{border: "1px solid #707070", width: "200vh", height: "80vh", borderRadius: "10px", backgroundColor: "#fafafa", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} >
                         <div 
-                            onDrop={(e) => this.addFiles(e)}
+                            onDrop={(e) => this.addFilesFromDrop(e)}
                             onDragOver={(e) => { e.preventDefault();}}
                             onDragEnter={(e) => { e.preventDefault();}}
                             onDragLeave={(e) => { e.preventDefault();}}
@@ -285,7 +317,7 @@ class CapsuleMaker extends React.Component {
                             <div className="fileInput">
                                 <Button className="btn-1" color="primary" size="sm" outline type="button" onClick={() => this.openFileExplorer()}>
                                     Upload Files
-                                    <input type="file" ref="fileBrowser" onChange={(e) => {console.log(e)}} hidden/>
+                                    <input type="file" ref="fileBrowser" onChange={(e) => this.addFilesFromUpload(e)} style={{display: "none"}}/>
                                 </Button>
                             </div>
                             <div>

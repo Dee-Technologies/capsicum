@@ -109,19 +109,20 @@ class DemoNavbar extends React.Component {
                 </div>
                 <Nav className="align-items-lg-center ml-lg-auto" navbar>
                   <NavItem className="d-none d-lg-block ml-lg-4">
+                    <Link to="/about">
+                      <Button
+                        className="btn-neutral btn-icon"
+                        color="default"
+                      >
+                        <span className="nav-link-inner--text ml-1"  style={{color: "#d01717"}}>
+                          About
+                        </span>
+                      </Button>
+                    </Link>
                     <Button
                       className="btn-neutral btn-icon"
                       color="default"
-                      href="/about"
-                    >
-                      <span className="nav-link-inner--text ml-1"  style={{color: "#d01717"}}>
-                        About
-                      </span>
-                    </Button>
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="/register"
+                      href="register"
                     >
                       <span className="nav-link-inner--text ml-1" style={{color: "#d01717"}}>
                         Support Us
