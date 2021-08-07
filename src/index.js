@@ -30,6 +30,7 @@ import CapsuleViewer from "views/CapsuleViewer.js";
 import Register from "views/Register.js";
 import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile.js";
+import Share from "views/Share";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -38,6 +39,7 @@ ReactDOM.render(
       <Route path="/register" exact render={props => <Register {...props} />} />
       <Route path="/capsule-maker" exact render={props => <CapsuleMaker {...props} />} />
       <Route path="/capsule-viewer" exact render={props => <CapsuleViewer {...props} />} />
+      <Route path="/share/:capsicumID" exact render={props => <Share {...props} />} />
       <Route
         path="/landing-page"
         exact
@@ -53,7 +55,7 @@ ReactDOM.render(
         path="/register-page"
         exact
         render={props => <Register {...props} />}
-      />
+      /> 
       <Redirect to="/" />
     </Switch>
   </BrowserRouter>,
