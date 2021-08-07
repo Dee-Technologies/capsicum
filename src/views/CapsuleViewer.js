@@ -20,6 +20,8 @@ class CapsuleViewer extends React.Component {
 
         this.state = {
             capsuleOpened: false,
+            capsicumData: {},
+            particleImageData: {},
             particleVisiblity: "hidden"
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
@@ -41,9 +43,18 @@ class CapsuleViewer extends React.Component {
         });
 
         var firebaseDB = firebase.database();
-
+        console.log(capsicumID)
         firebase.auth().signInAnonymously()
         .then(() => {
+            var capsicumRef = firebaseDB.ref('capsicums/' + capsicumID);
+            capsicumRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                this.setState({
+                    capsicumData: data
+                }, () => {
+                    getParticleImageData()
+                })
+            });
         })
         .catch(function(error) {
             var errorCode = error.code;
@@ -278,7 +289,7 @@ class CapsuleViewer extends React.Component {
                             </div>
                         </div>
                         <br></br>
-                        <h1 className="capsicumName">MFHS Graduation 2020</h1>
+                        <h1 className="capsicumName">{this.state.capsicumData.capsicumName}</h1>
                         <p className="tapToExpand">Tap to expand</p>
                     </Container> 
                 </div>

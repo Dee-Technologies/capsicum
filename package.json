@@ -67,6 +67,7 @@
     "react-scripts": "^3.4.1",
     "react-spinners": "^0.11.0",
     "react-tsparticles": "^1.33.2",
+    "react-uuid": "^1.0.2",
     "reactstrap": "8.4.1",
     "shortid": "^2.2.16",
     "tsparticles": "^1.33.1"

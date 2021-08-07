@@ -11,7 +11,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 
-import { nanoid } from 'nanoid';
+import uuid from 'react-uuid'
 
 import PacmanLoader from "react-spinners/PacmanLoader";
 
@@ -177,7 +177,7 @@ class CapsuleMaker extends React.Component {
             loadingStatus: true,
             pageOpacity: 0.1
         }, () => {
-            const capsicumID = nanoid();
+            const capsicumID = uuid();
 
             var capsicum = {
                 capsicumName: this.state.capsicumName,
@@ -189,14 +189,15 @@ class CapsuleMaker extends React.Component {
 
             firebase.auth().signInAnonymously()
             .then(() => {
-                firebaseDB.ref('capsicums/' + capsicumID).set(capsicum);  
+                firebaseDB.ref('capsicums/' + capsicumID).set(capsicum)
+                .then(() => {
+                    this.setState({
+                        loadingStatus: false,
+                        pageOpacity: 1
+                    })
 
-                this.setState({
-                    loadingStatus: false,
-                    pageOpacity: 1
-                })
-
-                window.location = "share/" + capsicumID;
+                    window.location = "share/" + capsicumID; 
+                })  
             })
             .catch(function(error) {
                 var errorCode = error.code;
