@@ -1,6 +1,6 @@
 import React from 'react';
 // import Button from './IndexSections/Buttons.js';
-import { Button } from "reactstrap";
+import { Input, UncontrolledAlert, Button } from "reactstrap";
 import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
 import Inputs from './IndexSections/Inputs.js';
@@ -30,7 +30,9 @@ class CapsuleMaker extends React.Component {
             nextButtonActive: "none", // The css display status for the button to add media data for next image
             buildCapsicumButtonActive: "none", // The css display status for building a capsicum
             loadingStatus: false, // Loading status
-            pageOpacity: 1 // Page opacity. Changes on loading operations
+            pageOpacity: 1, // Page opacity. Changes on loading operations
+            isErrorActive: false, // Boolean for if an error alert should be active
+            errorMsg: "You need to upload at least one image" // Error message to display 
         }
     }
 
@@ -105,11 +107,21 @@ class CapsuleMaker extends React.Component {
     // Will then allow user to proceed to adding title and descriptions
     // for each image
     completeFileUpload() {
-        // Set file upload to be none
-        this.setState({
-            fileUploadActive: "none",
-            mediaEditorActive: "flex"
-        })
+        if (this.state.files.length === 0) {
+            // Empty files array so we should break and display 
+            // the appropriate error message
+            this.setState({
+                isErrorActive: true
+            })
+
+            return;
+        } else {
+            // Set file upload to be none
+            this.setState({
+                fileUploadActive: "none",
+                mediaEditorActive: "flex"
+            })
+        }
     }
 
     // Pushes data captured from input fields for current piece of displayed
@@ -160,6 +172,52 @@ class CapsuleMaker extends React.Component {
         }
     }
 
+    // Returns to the previous image and shows relevant data
+    previousImage() {
+        // Creating and appending collectedData to mediaData array
+        var collectedData = {
+            name: this.refs.imageName.innerText,
+            description: this.state.imageDescription,
+            img: this.state.files[this.state.currentFileIdx]
+        }
+
+        var currentMediaData = this.state.mediaData;
+        currentMediaData.push(collectedData);
+
+        this.setState({
+            mediaData: currentMediaData,
+        }, () => {
+            // For debugging purposes
+            console.log(this.state.mediaData);
+        })
+
+        // Setting the previous image to display
+        var numFiles = this.state.files.length
+        // If we are on the second last image, we want to show the
+        // build capsicum button not the next button
+        if (this.state.currentFileIdx === 0) {
+            this.setState({
+                imageTitle: "Untitled Image",
+                imageDescription: "",
+                currentFileIdx: 0,
+                nextButtonActive: "none",
+                buildCapsicumButtonActive: "none",
+                fileUploadActive: "block",
+                mediaEditorActive: "none"
+            })
+        }
+        else {
+            this.setState({
+                imageTitle: "Untitled Image",
+                imageDescription: "",
+                currentFileIdx: this.state.currentFileIdx + 1
+            })
+
+            this.refs.imageName.innerText = "Untitled Image";
+            this.refs.imageDescription.innerText = "";
+        }
+    } 
+
     // Builds Capsicum object and sends to database
     buildCapsicum() {
         // Adding final collectedData to overall mediaData array
@@ -180,7 +238,7 @@ class CapsuleMaker extends React.Component {
             const capsicumID = uuid();
 
             var capsicum = {
-                capsicumName: this.state.capsicumName,
+                capsicumName: this.refs.capsicumName.innerText,
                 capsicumID: capsicumID,
                 media: this.state.mediaData
             }
@@ -222,7 +280,7 @@ class CapsuleMaker extends React.Component {
                             ref="fileUploadStep" 
                             style={{display: this.state.fileUploadActive}}
                         >
-                            <h1 className="capsicumName" contentEditable>Untitled Capsicum</h1>
+                            <h1 className="capsicumName" ref="capsicumName" contentEditable>Untitled Capsicum</h1>
                             <h2 className="dragAndDropText">Drag and drop your images here</h2>
                             <div className="fileInput">
                                 <Button className="btn-1" color="primary" size="sm" outline type="button" onClick={() => this.openFileExplorer()}>
@@ -247,18 +305,30 @@ class CapsuleMaker extends React.Component {
                                 onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
                                     {this.state.imageTitle} 
                                 </h1>
-                                <textarea style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}} 
-                                onChange={(e) => {this.setState({imageDescription: e.target.value})}} placeholder="Tell us something about this photo..." ref="imageDescription">
-                                    {this.state.imageDescription}
-                                </textarea>
+                                <Input type="textarea" style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}
+                                 onChange={(e) => {this.setState({imageDescription: e.target.value})}} value= {this.state.imageDescription} placeholder="Tell us something about this photo..."></Input>
                                 <div className="buildCapsicumBtn" style={{display: this.state.nextButtonActive}}>
                                     <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
                                 </div> 
-                                <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
-                                    <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
-                                </div> 
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+                                    
+                                    <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
+                                        <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.previousImage()}>Back</Button>
+                                    </div> 
+                                    <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
+                                        <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
+                                    </div> 
+                                </div>
                             </div>  
                         </div>
+                        <UncontrolledAlert isOpen={this.state.isErrorActive} color="danger" fade={true} toggle={() => this.setState({isErrorActive: false})}style={{width: "40%", bottom: "0", position: "absolute", height: "10vh"}}>
+                        <span className="alert-inner--icon">
+                            <i className="ni ni-support-16" />
+                        </span>
+                        <span className="alert-inner--text ml-1">
+                            {this.state.errorMsg}
+                        </span>
+                        </UncontrolledAlert>
                     </Container> 
                     <Particles 
                             options={{

@@ -14,6 +14,8 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 
+import PacmanLoader from "react-spinners/PacmanLoader";
+
 class CapsuleViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -21,8 +23,10 @@ class CapsuleViewer extends React.Component {
         this.state = {
             capsuleOpened: false,
             capsicumData: {},
-            particleImageData: {},
-            particleVisiblity: "hidden"
+            particleImageData: [],
+            particleVisiblity: "hidden",
+            capsicumLockDisplay: "none",
+            loadingStatus: true
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -50,9 +54,9 @@ class CapsuleViewer extends React.Component {
             capsicumRef.on('value', (snapshot) => {
                 const data = snapshot.val();
                 this.setState({
-                    capsicumData: data
+                    capsicumData: data,
                 }, () => {
-                    getParticleImageData()
+                    this.getParticleImageData()
                 })
             });
         })
@@ -62,12 +66,31 @@ class CapsuleViewer extends React.Component {
         });
     }
 
+    getParticleImageData() {
+        const media = this.state.capsicumData.media;
+        var particleImageData = []
+        for (var i in media) {
+            console.log("fef", media[i])
+            var imgObject = {
+                src: media[i].img
+            }
+
+            particleImageData.push(imgObject);
+        }
+
+        this.setState({
+            particleImageData: particleImageData,
+            loadingStatus: false,
+            capsicumLockDisplay: "block"
+        })
+    }
+
     openCapsule() {
         this.setState({
             capsuleOpened: true,
-            particleVisiblity: "visible"
+            particleVisiblity: "visible",
+            capsicumLockDisplay: "none"
         }, () => {
-            this.refs.capsi.style.display = "none";
         })
     }
 
@@ -162,25 +185,13 @@ class CapsuleViewer extends React.Component {
                         },
                         color: {
                             value: "#ff0000",
-                            animation: {
-                            enable: true,
-                            speed: 20,
-                            sync: true
-                            }
                         },
                         shape: {
                             type: [
                                 "image",
                                 "circle"
                             ],
-                            images: [
-                                {
-                                    src: testPhotoOne,
-                                },
-                                {
-                                    src: testPhotoTwo,
-                                } 
-                            ]
+                            images: this.state.particleImageData
                         },
                         stroke: {
                             width: 0
@@ -281,7 +292,7 @@ class CapsuleViewer extends React.Component {
                             left: "0",
                             top: "0"
                         }} */}
-                <div ref="capsi" style={{display: "visible"}}>
+                <div style={{display: this.state.capsicumLockDisplay}}>
                     <Container onClick={() => this.openCapsule()}>
                         <div class="capsicumPosition" ref="capsicum">
                             <div className="bg capsicumLockedAnim flex" ref="capsicumInner">
@@ -293,6 +304,9 @@ class CapsuleViewer extends React.Component {
                         <p className="tapToExpand">Tap to expand</p>
                     </Container> 
                 </div>
+                <div style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "1"}}>
+                    <PacmanLoader loading={this.state.loadingStatus} color={"#d01717"} />
+                </div> 
             </div>
         )
     }

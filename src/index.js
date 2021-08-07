@@ -27,6 +27,7 @@ import Index from "views/Index.js";
 import Landing from "views/Landing.js";
 import CapsuleMaker from "views/CapsuleMaker.js";
 import CapsuleViewer from "views/CapsuleViewer.js";
+import About from "views/About.js";
 import Register from "views/Register.js";
 import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile.js";
@@ -39,6 +40,7 @@ ReactDOM.render(
       <Route path="/register" exact render={props => <Register {...props} />} />
       <Route path="/capsule-maker" exact render={props => <CapsuleMaker {...props} />} />
       <Route path="/viewer/:capsicumID" exact render={props => <CapsuleViewer {...props} />} />
+      <Route path="/about" exact render={props => <About {...props} />} />
       <Route path="/share/:capsicumID" exact render={props => <Share {...props} />} />
       <Route
         path="/landing-page"

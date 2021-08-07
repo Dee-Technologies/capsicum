@@ -112,10 +112,10 @@ class DemoNavbar extends React.Component {
                     <Button
                       className="btn-neutral btn-icon"
                       color="default"
-                      href="/signin"
+                      href="/about"
                     >
                       <span className="nav-link-inner--text ml-1"  style={{color: "#d01717"}}>
-                        Sign in
+                        About
                       </span>
                     </Button>
                     <Button
@@ -124,7 +124,7 @@ class DemoNavbar extends React.Component {
                       href="/register"
                     >
                       <span className="nav-link-inner--text ml-1" style={{color: "#d01717"}}>
-                        Register
+                        Support Us
                       </span>
                     </Button>
                   </NavItem>

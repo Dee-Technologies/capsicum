@@ -40,7 +40,7 @@ class Share extends React.Component {
                     <div>
                         <h1 className="capsicumName" style={{textAlign: "center"}} >Thanks for Using Capsicum!</h1>
                         <p style={{textAlign: "center"}} className="dragAndDropText">Share your timeless creation with the world</p>
-                        <Input type="text" style={{textAlign: "center"}} value={"https://capsicum.com/viewer/" + this.props.match.params.capsicumID}>https://capsicum.com/</Input>
+                        <Input type="text" style={{textAlign: "center"}} value={"https://capsicum.com/viewer/" + this.props.match.params.capsicumID}></Input>
                         <br></br>
                         <div style={{textAlign: "center", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <Button onClick={() => this.viewCapsicum()}>View Capsicum</Button>  
