@@ -10,6 +10,10 @@ import Container from 'reactstrap/lib/Container';
 import testPhotoOne from "assets/testphotoone.JPG"
 import testPhotoTwo from "assets/testphototwo.JPG"
 
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
+
 class CapsuleViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -19,6 +23,32 @@ class CapsuleViewer extends React.Component {
             particleVisiblity: "hidden"
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
+    }
+
+    // Get capsicum data from URL Param
+    componentDidMount() {
+        const capsicumID = this.props.match.params.capsicumID;
+        // Firebase setup
+        firebase.initializeApp({
+            apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
+            authDomain: "capsicum-7b458.firebaseapp.com",
+            databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "capsicum-7b458",
+            storageBucket: "capsicum-7b458.appspot.com",
+            messagingSenderId: "720103387844",
+            appId: "1:720103387844:web:fec433842c266a94df0f91",
+            measurementId: "G-4ZML2Q9T9V"
+        });
+
+        var firebaseDB = firebase.database();
+
+        firebase.auth().signInAnonymously()
+        .then(() => {
+        })
+        .catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
     }
 
     openCapsule() {

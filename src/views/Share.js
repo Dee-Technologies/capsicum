@@ -25,21 +25,27 @@ class Share extends React.Component {
         window.location = "../viewer/" + this.props.match.params.capsicumID
     }
 
-    copyShareLink()
+    // Copies link for sharing
+    copyShareLink() {
+        navigator.clipboard.writeText("https://capsicum.com/viewer/" + this.props.match.params.capsicumID);
+        this.setState({
+            isCopyNotifOn: true
+        })
+    }
 
     render() {
         return (
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                 <div style={{padding: "3vh", width: "50%", height: "100vh", zIndex: "10", backgroundColor: "#fafafa", borderRight: "0.5px solid #f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute"}}>
                     <div>
-                        <h1 className="capsicumName" style={{textAlign: "center"}} >Thanks for Using Capsicum</h1>
+                        <h1 className="capsicumName" style={{textAlign: "center"}} >Thanks for Using Capsicum!</h1>
                         <p style={{textAlign: "center"}} className="dragAndDropText">Share your timeless creation with the world</p>
                         <Input type="text" style={{textAlign: "center"}} value={"https://capsicum.com/viewer/" + this.props.match.params.capsicumID}>https://capsicum.com/</Input>
                         <br></br>
                         <div style={{textAlign: "center", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <Button onClick={() => this.viewCapsicum()}>View Capsicum</Button>  
                             <Button style={{color: "#fafafa", backgroundColor: "#f84c1b", borderColor: "#f84c1b" }}
-                            onClick={() => {navigator.clipboard.writeText("https://capsicum.com/viewer/" + this.props.match.params.capsicumID)}}>
+                            onClick={() => this.copyShareLink()}>
                             <span className="btn-inner--icon mr-1">
                                 <i className="ni ni-single-copy-04" />
                             </span>
@@ -47,7 +53,7 @@ class Share extends React.Component {
                             </Button>
                         </div>
                     </div>
-                    <UncontrolledAlert isOpen={this.state.isCopyNotifOn} color="success" fade={true} style={{width: "80%", bottom: "0", position: "absolute", height: "10vh"}}>
+                    <UncontrolledAlert isOpen={this.state.isCopyNotifOn} color="success" fade={true} toggle={() => this.setState({isCopyNotifOn: false})}style={{width: "80%", bottom: "0", position: "absolute", height: "10vh"}}>
                             <span className="alert-inner--icon">
                                 <i className="ni ni-like-2" />
                             </span>
