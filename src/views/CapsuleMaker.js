@@ -15,7 +15,11 @@ class CapsuleMaker extends React.Component {
             fileUploadActive: "block", // The css display status for the file upload section
             currentFileIdx: 0, // Stores the index of the current file being observed in the builder
             mediaData: [], // Stores the media data per object,
-            mediaEditorActive: "none" // The css display status for the media editor section
+            mediaEditorActive: "none", // The css display status for the media editor section,
+            imageTitle: "Untitled Image", // Currently inputted image title
+            imageDescription: "", // Currently inputted image description,
+            nextButtonActive: "none", // The css display status for the button to add media data for next image
+            buildCapsicumButtonActive: "none" // The css display status for building a capsicum
         }
     }
 
@@ -54,12 +58,23 @@ class CapsuleMaker extends React.Component {
         }
         
         Promise.all(ps).then(items => {
-            this.setState({
-                files: items
-            }, () => {
-                console.log(this.state.files)
-                this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
-            })
+            if (items.length === 1) {
+                this.setState({
+                    files: items,
+                    buildCapsicumButtonActive: "block"
+                }, () => {
+                    console.log(this.state.files)
+                    this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
+                })   
+            } else {
+                this.setState({
+                    files: items,
+                    nextButtonActive: "block"
+                }, () => {
+                    console.log(this.state.files)
+                    this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
+                })   
+            }
         })
     }
 
@@ -84,7 +99,54 @@ class CapsuleMaker extends React.Component {
     // Pushes data captured from input fields for current piece of displayed
     // media and sets the next one to the display
     nextImage() {
+        // Creating and appending collectedData to mediaData array
+        var collectedData = {
+            name: this.refs.imageName.innerText,
+            description: this.state.imageDescription,
+            img: this.state.files[this.state.currentFileIdx]
+        }
+
+        var currentMediaData = this.state.mediaData;
+        currentMediaData.push(collectedData);
+
+        this.setState({
+            mediaData: currentMediaData
+        }, () => {
+            // For debugging purposes
+            console.log(this.state.mediaData);
+        })
+
         // Setting the next image to display
+        var numFiles = this.state.files.length
+        // If we are on the second last image, we want to show the
+        // build capsicum button not the next button
+        if (this.state.currentFileIdx === numFiles - 2) {
+            this.setState({
+                imageTitle: "Untitled Image",
+                imageDescription: "",
+                currentFileIdx: this.state.currentFileIdx + 1,
+                nextButtonActive: "none",
+                buildCapsicumButtonActive: "block"
+            })
+
+            this.refs.imageName.innerText = "Untitled Image";
+            this.refs.imageDescription.innerText = "";
+        }
+        else {
+            this.setState({
+                imageTitle: "Untitled Image",
+                imageDescription: "",
+                currentFileIdx: this.state.currentFileIdx + 1
+            })
+
+            this.refs.imageName.innerText = "Untitled Image";
+            this.refs.imageDescription.innerText = "";
+        }
+    }
+
+    // Builds Capsicum object and sends to database
+    buildCapsicum() {
+        // Adding final data to 
     }
 
     render() {
@@ -122,11 +184,19 @@ class CapsuleMaker extends React.Component {
                             <img src={this.state.files[this.state.currentFileIdx]} style={{objectFit: "cover", height: "60vh", width: "60vh", borderRadius: "10px"}}></img>
                         </div>
                         <div style={{flexDirection: "column", width: "100vh"}}>
-                            <h1 className="capsicumName"  style={{textAlign: "left", marginLeft: "5vh"}}contentEditable>Image Title</h1>
-                            <textarea style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}>
+                            <h1 className="capsicumName"  ref="imageName" style={{textAlign: "left", marginLeft: "5vh"}}
+                            onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
+                                {this.state.imageTitle} 
+                            </h1>
+                            <textarea style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}} 
+                            onChange={(e) => {this.setState({imageDescription: e.target.value})}} placeholder="Tell us something about this photo..." ref="imageDescription">
+                                {this.state.imageDescription}
                             </textarea>
-                            <div className="buildCapsicumBtn">
+                            <div className="buildCapsicumBtn" style={{display: this.state.nextButtonActive}}>
                                 <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
+                            </div> 
+                            <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
+                                <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
                             </div> 
                         </div>  
                     </div>
