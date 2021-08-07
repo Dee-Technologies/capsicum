@@ -4,29 +4,42 @@ import iconLogo from "assets/capsicumlogo.svg";
 
 import '../assets/scss/capsule-maker.scss';
 
-import { Button, Input } from 'reactstrap';
+import { UncontrolledAlert, Button, Input } from 'reactstrap';
 
 class Share extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isCopyNotifOn: false
+        }
     }
 
     componentDidMount() {
         const capsicumID = this.props.match.params.capsicumID;
         console.log(capsicumID);
     }
+
+    // Sends users to view capsicum page
+    viewCapsicum() {
+        window.location = "../viewer/" + this.props.match.params.capsicumID
+    }
+
+    copyShareLink()
+
     render() {
         return (
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                <div style={{padding: "3vh", width: "50%", height: "100vh", zIndex: "10", backgroundColor: "#fafafa", borderRight: "0.5px solid #f0f0f0", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <div style={{padding: "3vh", width: "50%", height: "100vh", zIndex: "10", backgroundColor: "#fafafa", borderRight: "0.5px solid #f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute"}}>
                     <div>
                         <h1 className="capsicumName" style={{textAlign: "center"}} >Thanks for Using Capsicum</h1>
-                        <p className="capsicumName" style={{textAlign: "center"}} className="dragAndDropText">Share your timeless creation with the world</p>
+                        <p style={{textAlign: "center"}} className="dragAndDropText">Share your timeless creation with the world</p>
                         <Input type="text" style={{textAlign: "center"}} value={"https://capsicum.com/viewer/" + this.props.match.params.capsicumID}>https://capsicum.com/</Input>
                         <br></br>
                         <div style={{textAlign: "center", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            <Button>View Capsicum</Button>  
-                            <Button style={{color: "#fafafa", backgroundColor: "#f84c1b", borderColor: "#f84c1b" }}>
+                            <Button onClick={() => this.viewCapsicum()}>View Capsicum</Button>  
+                            <Button style={{color: "#fafafa", backgroundColor: "#f84c1b", borderColor: "#f84c1b" }}
+                            onClick={() => {navigator.clipboard.writeText("https://capsicum.com/viewer/" + this.props.match.params.capsicumID)}}>
                             <span className="btn-inner--icon mr-1">
                                 <i className="ni ni-single-copy-04" />
                             </span>
@@ -34,6 +47,14 @@ class Share extends React.Component {
                             </Button>
                         </div>
                     </div>
+                    <UncontrolledAlert isOpen={this.state.isCopyNotifOn} color="success" fade={true} style={{width: "80%", bottom: "0", position: "absolute", height: "10vh"}}>
+                            <span className="alert-inner--icon">
+                                <i className="ni ni-like-2" />
+                            </span>
+                            <span className="alert-inner--text ml-1">
+                                <strong>Copied</strong> to clipboard!
+                            </span>
+                    </UncontrolledAlert>
                 </div>
                 <div style={{padding: "3vh", width: "50%"}}>
                     <Particles 

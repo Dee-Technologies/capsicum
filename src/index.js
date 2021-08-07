@@ -38,7 +38,7 @@ ReactDOM.render(
       <Route path="/" exact render={props => <Landing {...props} />} />
       <Route path="/register" exact render={props => <Register {...props} />} />
       <Route path="/capsule-maker" exact render={props => <CapsuleMaker {...props} />} />
-      <Route path="/capsule-viewer" exact render={props => <CapsuleViewer {...props} />} />
+      <Route path="/viewer/:capsicumID" exact render={props => <CapsuleViewer {...props} />} />
       <Route path="/share/:capsicumID" exact render={props => <Share {...props} />} />
       <Route
         path="/landing-page"
