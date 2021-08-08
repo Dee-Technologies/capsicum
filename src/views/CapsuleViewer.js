@@ -18,6 +18,8 @@ import Slider from "nouislider";
 import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
+import {Carousel} from '3d-react-carousal';
+
 class CapsuleViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -27,9 +29,12 @@ class CapsuleViewer extends React.Component {
             capsicumData: {},
             particleImageData: [],
             particleVisiblity: "hidden",
+            optionsVisiblity: "hidden",
             capsicumLockDisplay: "none",
             loadingStatus: true,
-            particleSpeed: 5
+            particleSpeed: 5,
+            presentationToggle: false,
+            presentationActive: "none", // Display status for presentation mode
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -92,6 +97,7 @@ class CapsuleViewer extends React.Component {
         this.setState({
             capsuleOpened: true,
             particleVisiblity: "visible",
+            optionsVisiblity: "visible",
             capsicumLockDisplay: "none"
         }, () => {
         })
@@ -114,12 +120,18 @@ class CapsuleViewer extends React.Component {
         return (
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
                 <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
-                display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.particleVisiblity,}}>
+                display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.optionsVisiblity,}}>
                     <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <label className="custom-toggle">
-                            <input type="checkbox" />
+                            <input type="checkbox"  value={this.state.presentationToggle} onChange={() => {
+                                this.setState({
+                                    presentationToggle: !this.state.presentationToggle,
+                                    presentationActive: "block",
+                                    particleVisiblity: "hidden"
+                                })
+                            }}/>
                             <span className="custom-toggle-slider rounded-circle" />
-                        </label>
+                        </label>    
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Presentation</small>
                     </div>
                     {/* <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -128,64 +140,21 @@ class CapsuleViewer extends React.Component {
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Speed</small>
                     </div> */}
                 </div>
+                <div ref="presentationMode" style={{display: this.state.presentationActive}}>
+                    <Carousel slides={
+                        [
+                            <img src="https://picsum.photos/800/300/?random" alt="1" />,
+                            <img  src="https://picsum.photos/800/301/?random" alt="2" />  ,
+                            <img  src="https://picsum.photos/800/302/?random" alt="3" />  ,
+                            <img  src="https://picsum.photos/800/303/?random" alt="4" />  ,
+                            <img src="https://picsum.photos/800/304/?random" alt="5" />   ]
+                    }/>
+                </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>
-                    {/* <Particles
-                    init={(m) => this.particlesInit(m)} 
-                    loaded={this.particlesLoaded}
-                    options={{
-                        particles: {
-                            number: {
-                                value: 8,
-                                density: {
-                                    enable: true,
-                                    value_area: 800
-                                }
-                            },
-                            line_linked: {
-                                enable: false
-                            },
-                            move: {
-                                speed: 1,
-                                out_mode: "out"
-                            },
-                            shape: {
-                                type: [
-                                    "image",
-                                ],
-                                images: [
-                                    {
-                                        src: testPhotoOne,
-                                        height: 10,
-                                        width: 10
-                                    },
-                                    {
-                                        src: testPhotoTwo,
-                                        height: 10,
-                                        width: 10
-                                    }
-                                ]
-                            },
-                            "color": {
-                                "value": "#CCC"
-                            },
-                            "size": {
-                                "value": 30,
-                                "random": false,
-                                "anim": {
-                                    "enable": true,
-                                    "speed": 4,
-                                    "size_min": 10,
-                                    "sync": false
-                                }
-                            }
-                        },
-                        retina_detect: false
-                    }}  */}
                     <Particles 
                         init={(m) => this.particlesInit(m)} 
                         loaded={(c) => this.particlesLoaded(c)}
-                        
                         
                         options={{
                         fpsLimit: 60,

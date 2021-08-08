@@ -32,7 +32,7 @@ class CapsuleMaker extends React.Component {
             loadingStatus: false, // Loading status
             pageOpacity: 1, // Page opacity. Changes on loading operations
             isErrorActive: false, // Boolean for if an error alert should be active
-            errorMsg: "You need to upload at least one image" // Error message to display 
+            errorMsg: "You need to upload at least one image", // Error message to display 
         }
     }
 
