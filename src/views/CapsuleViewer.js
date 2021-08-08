@@ -21,6 +21,7 @@ import 'firebase/auth';
 import Slider from "nouislider";
 import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import SimpleCarousel from 'simple-react-carousel';
 
 class CapsuleViewer extends React.Component {
     constructor(props) {
@@ -36,8 +37,8 @@ class CapsuleViewer extends React.Component {
             loadingStatus: true,
             particleSpeed: 5,
             presentationToggle: false,
-            presentationActive: "none", // Display status for presentation mode
-            carouselImages: [], // Array with carousel images
+            presentationActive: "hidden", // Display status for presentation mode
+            carouselImages: ["https://picsum.photos/200/300"], // Array with carousel images
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -92,11 +93,8 @@ class CapsuleViewer extends React.Component {
                 src: media[i].img
             }
 
-            carouselImages.push({
-                key: i,
-                content: <img src={media[i].img} />
-            })
-
+            carouselImages.push(media[i].img)
+            console.log(carouselImages)
             particleImageData.push(imgObject);
             // var carouselImageObject = this.getCarouselSlide(media[i].img)
             // carouselImages.push(carouselImageObject);
@@ -107,6 +105,8 @@ class CapsuleViewer extends React.Component {
             carouselImages: carouselImages,
             loadingStatus: false,
             capsicumLockDisplay: "block"
+        }, () => {
+            this.forceUpdate();
         })
     }
 
@@ -142,6 +142,18 @@ class CapsuleViewer extends React.Component {
     render() {
         return (
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
+                <div style={{display: this.state.capsicumLockDisplay, zIndex: "50"}}>
+                    <Container onClick={() => this.openCapsule()}>
+                        <div class="capsicumPosition" ref="capsicum">
+                            <div className="bg capsicumLockedAnim flex" ref="capsicumInner">
+                                <div className="c" ref="capsicumOuter"></div>   
+                            </div>
+                        </div>
+                        <br></br>
+                        <h1 className="capsicumName">{this.state.capsicumData.capsicumName}</h1>
+                        <p className="tapToExpand">Tap to expand</p>
+                    </Container> 
+                </div>
                 <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
                 display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.optionsVisiblity,}}>
                     <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -149,7 +161,7 @@ class CapsuleViewer extends React.Component {
                             <input type="checkbox"  value={this.state.presentationToggle} onChange={() => {
                                 this.setState({
                                     presentationToggle: !this.state.presentationToggle,
-                                    presentationActive: "block",
+                                    presentationActive: "visible",
                                     particleVisiblity: "hidden"
                                 })
                             }}/>
@@ -163,8 +175,29 @@ class CapsuleViewer extends React.Component {
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Speed</small>
                     </div> */}
                 </div>
-                <div ref="presentationMode" style={{display: this.state.presentationActive}}>
-                    
+                <div ref="presentationMode" style={{visibility: this.state.presentationActive, zIndex: "-51"}}>
+                    <SimpleCarousel>
+                        {/* <div>
+                            <h2>OMG Text!</h2>
+                            <p>You can use text here too!</p>
+                        </div> */}
+                        {
+                            this.state.carouselImages.map((image) => {
+                                return(
+                                    <div>
+                                        <img src={image} />
+                                    </div>
+                                )
+                            })
+                        }
+                        {/* <div>
+                            <h2>Text and Images!?</h2>
+                            <div>
+                            <p>Here is a pretty image:</p>
+                            <img src="https://picsum.photos/200/300" alt="You can use text and images in the same slide" />
+                            </div> */}
+                        {/* </div> */}
+                    </SimpleCarousel>
                 </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>
@@ -295,18 +328,6 @@ class CapsuleViewer extends React.Component {
                             left: "0",
                             top: "0"
                         }} */}
-                <div style={{display: this.state.capsicumLockDisplay}}>
-                    <Container onClick={() => this.openCapsule()}>
-                        <div class="capsicumPosition" ref="capsicum">
-                            <div className="bg capsicumLockedAnim flex" ref="capsicumInner">
-                                <div className="c" ref="capsicumOuter"></div>   
-                            </div>
-                        </div>
-                        <br></br>
-                        <h1 className="capsicumName">{this.state.capsicumData.capsicumName}</h1>
-                        <p className="tapToExpand">Tap to expand</p>
-                    </Container> 
-                </div>
                 <div style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "1"}}>
                     <PacmanLoader loading={this.state.loadingStatus} color={"#d01717"} />
                 </div> 
