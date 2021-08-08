@@ -110,8 +110,18 @@ class CapsuleViewer extends React.Component {
     render() {
         return (
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
+                <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
+                display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.particleVisiblity,}}>
+                    <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <label className="custom-toggle">
+                            <input type="checkbox" />
+                            <span className="custom-toggle-slider rounded-circle" />
+                        </label>
+                        <small>Presentation</small>
+                    </div>
+                </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
-                    <Container style={{}}>
+                    <Container>
                     {/* <Particles
                     init={(m) => this.particlesInit(m)} 
                     loaded={this.particlesLoaded}
