@@ -29,7 +29,7 @@ class CapsuleViewer extends React.Component {
             particleVisiblity: "hidden",
             capsicumLockDisplay: "none",
             loadingStatus: true,
-            particleSpeed: 100
+            particleSpeed: 5
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -113,19 +113,20 @@ class CapsuleViewer extends React.Component {
     render() {
         return (
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
-                <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "60vh", backgroundColor: "#fafafa", height: "12vh", 
+                <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
                 display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.particleVisiblity,}}>
-                    <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", marginRight: "10vh"}}>
+                    <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <label className="custom-toggle">
                             <input type="checkbox" />
                             <span className="custom-toggle-slider rounded-circle" />
                         </label>
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Presentation</small>
                     </div>
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                        <Nouislider range={{ min: 0, max: 100 }} start={[20]} style={{width: "15vh"}}connect /> 
+                    {/* <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <Nouislider range={{ min: 0, max: 100 }} start={[this.state.particleSpeed]} style={{width: "15vh"}} 
+                        onSlide={(value) => this.setState({particleSpeed: value[0]})} /> 
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Speed</small>
-                    </div>
+                    </div> */}
                 </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>
@@ -242,7 +243,7 @@ class CapsuleViewer extends React.Component {
                         },
                         move: {
                             enable: true,
-                            speed: 6,
+                            speed: this.state.particleSpeed,
                             direction: "none",
                             random: false,
                             straight: false,
