@@ -17,7 +17,7 @@
 */
 import React from "react";
 import bannerImage from "assets/bg-banner.png"
-
+import { Link } from 'react-router-dom';
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
 
@@ -43,17 +43,19 @@ class Hero extends React.Component {
                       Create immersive memory capsules in seconds
                     </p>
                     <div className="btn-wrapper mt-5">
-                      <Button
-                        className="btn-white btn-icon mb-3 mb-sm-0"
-                        color="#do1717"
-                        href="capsule-maker"
-                        size="lg"
-                      >
-                        {/* <span className="btn-inner--icon mr-1">
-                          <i className="ni ni-right" />
-                        </span> */}
-                        <span className="btn-inner--text" style={{color: "#do1717 !important"}}>Get started</span>
-                      </Button>
+
+                      <Link to="capsule-maker" style={{textDecoration: "none", padding: "1vh"}}>
+                        <Button
+                          className="btn-white btn-icon mb-3 mb-sm-0"
+                          color="#do1717"
+                          size="lg"
+                        >
+                          {/* <span className="btn-inner--icon mr-1">
+                            <i className="ni ni-right" />
+                          </span> */}
+                          <span className="btn-inner--text" style={{color: "#do1717 !important"}}>Get started</span>
+                        </Button>
+                      </Link>
                     </div>
                   </Col>
                 </Row>

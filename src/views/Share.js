@@ -22,7 +22,7 @@ class Share extends React.Component {
 
     // Sends users to view capsicum page
     viewCapsicum() {
-        window.location = "../viewer/" + this.props.match.params.capsicumID
+        this.props.history.push("../viewer/" + this.props.match.params.capsicumID)
     }
 
     // Copies link for sharing

@@ -1,6 +1,10 @@
 import React from 'react';
 // import Button from './IndexSections/Buttons.js';
-import { Row, Col } from "reactstrap";
+import { Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+} from "reactstrap";
 import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
 
@@ -18,8 +22,6 @@ import Slider from "nouislider";
 import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
-import {Carousel} from '3d-react-carousal';
-
 class CapsuleViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ class CapsuleViewer extends React.Component {
             particleSpeed: 5,
             presentationToggle: false,
             presentationActive: "none", // Display status for presentation mode
+            carouselImages: [], // Array with carousel images
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -43,16 +46,20 @@ class CapsuleViewer extends React.Component {
     componentDidMount() {
         const capsicumID = this.props.match.params.capsicumID;
         // Firebase setup
-        firebase.initializeApp({
-            apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
-            authDomain: "capsicum-7b458.firebaseapp.com",
-            databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "capsicum-7b458",
-            storageBucket: "capsicum-7b458.appspot.com",
-            messagingSenderId: "720103387844",
-            appId: "1:720103387844:web:fec433842c266a94df0f91",
-            measurementId: "G-4ZML2Q9T9V"
-        });
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
+                authDomain: "capsicum-7b458.firebaseapp.com",
+                databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "capsicum-7b458",
+                storageBucket: "capsicum-7b458.appspot.com",
+                messagingSenderId: "720103387844",
+                appId: "1:720103387844:web:fec433842c266a94df0f91",
+                measurementId: "G-4ZML2Q9T9V"
+            });
+        } else {
+            firebase.app();
+        }
 
         var firebaseDB = firebase.database();
         console.log(capsicumID)
@@ -76,21 +83,37 @@ class CapsuleViewer extends React.Component {
 
     getParticleImageData() {
         const media = this.state.capsicumData.media;
-        var particleImageData = []
+        var particleImageData = [];
+        var carouselImages = []
+
         for (var i in media) {
             console.log("fef", media[i])
             var imgObject = {
                 src: media[i].img
             }
 
-            particleImageData.push(imgObject);
-        }
+            carouselImages.push({
+                key: i,
+                content: <img src={media[i].img} />
+            })
 
+            particleImageData.push(imgObject);
+            // var carouselImageObject = this.getCarouselSlide(media[i].img)
+            // carouselImages.push(carouselImageObject);
+        }
+        console.log(carouselImages)
         this.setState({
             particleImageData: particleImageData,
+            carouselImages: carouselImages,
             loadingStatus: false,
             capsicumLockDisplay: "block"
         })
+    }
+
+    getCarouselSlide(image) {
+        return (
+            <img src={image}></img>
+        )
     }
 
     openCapsule() {
@@ -141,14 +164,7 @@ class CapsuleViewer extends React.Component {
                     </div> */}
                 </div>
                 <div ref="presentationMode" style={{display: this.state.presentationActive}}>
-                    <Carousel slides={
-                        [
-                            <img src="https://picsum.photos/800/300/?random" alt="1" />,
-                            <img  src="https://picsum.photos/800/301/?random" alt="2" />  ,
-                            <img  src="https://picsum.photos/800/302/?random" alt="3" />  ,
-                            <img  src="https://picsum.photos/800/303/?random" alt="4" />  ,
-                            <img src="https://picsum.photos/800/304/?random" alt="5" />   ]
-                    }/>
+                    
                 </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>

@@ -13,6 +13,8 @@ import 'firebase/auth';
 
 import uuid from 'react-uuid'
 
+import { createBrowserHistory } from 'history';
+
 import PacmanLoader from "react-spinners/PacmanLoader";
 
 class CapsuleMaker extends React.Component {
@@ -33,6 +35,7 @@ class CapsuleMaker extends React.Component {
             pageOpacity: 1, // Page opacity. Changes on loading operations
             isErrorActive: false, // Boolean for if an error alert should be active
             errorMsg: "You need to upload at least one image", // Error message to display 
+            presentationActive: "none" // Display status for
         }
     }
 
@@ -41,16 +44,20 @@ class CapsuleMaker extends React.Component {
         localStorage.clear();
 
         // Firebase setup
-        firebase.initializeApp({
-            apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
-            authDomain: "capsicum-7b458.firebaseapp.com",
-            databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "capsicum-7b458",
-            storageBucket: "capsicum-7b458.appspot.com",
-            messagingSenderId: "720103387844",
-            appId: "1:720103387844:web:fec433842c266a94df0f91",
-            measurementId: "G-4ZML2Q9T9V"
-        });
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey:  "AIzaSyAesmqx3YydCmAvT24gTtrNR_V0ccbv-dM",
+                authDomain: "capsicum-7b458.firebaseapp.com",
+                databaseURL: "https://capsicum-7b458-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "capsicum-7b458",
+                storageBucket: "capsicum-7b458.appspot.com",
+                messagingSenderId: "720103387844",
+                appId: "1:720103387844:web:fec433842c266a94df0f91",
+                measurementId: "G-4ZML2Q9T9V"
+            });
+        } else {
+            firebase.app();
+        }
     }
 
     openFileExplorer() {
@@ -286,7 +293,7 @@ class CapsuleMaker extends React.Component {
                         pageOpacity: 1
                     })
 
-                    window.location = "share/" + capsicumID; 
+                    this.props.history.push("share/" + capsicumID)
                 })  
             })
             .catch(function(error) {

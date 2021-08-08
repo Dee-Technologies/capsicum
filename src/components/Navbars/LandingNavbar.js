@@ -92,7 +92,7 @@ class DemoNavbar extends React.Component {
                 <div className="navbar-collapse-header">
                   <Row>
                     <Col className="collapse-brand" xs="6">
-                      <Link to="/">
+                      <Link to="/" style={{textDecoration: "none"}}>
                         <img
                           alt="..."
                           src={require("assets/img/brand/argon-react.png")}
@@ -109,7 +109,7 @@ class DemoNavbar extends React.Component {
                 </div>
                 <Nav className="align-items-lg-center ml-lg-auto" navbar>
                   <NavItem className="d-none d-lg-block ml-lg-4">
-                    <Link to="/about">
+                    <Link to="/about" style={{textDecoration: "none", padding: "1vh"}}>
                       <Button
                         className="btn-neutral btn-icon"
                         color="default"

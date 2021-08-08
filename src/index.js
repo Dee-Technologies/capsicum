@@ -12,7 +12,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
@@ -29,32 +29,17 @@ import Profile from "views/examples/Profile.js";
 import Share from "views/Share";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <Switch>
       <Route path="/" exact render={props => <Landing {...props} />} />
-      <Route path="/register" exact render={props => <Register {...props} />} />
-      <Route path="/capsule-maker" exact render={props => <CapsuleMaker {...props} />} />
-      <Route path="/viewer/:capsicumID" exact render={props => <CapsuleViewer {...props} />} />
-      <Route path="/about" exact render={props => <About {...props} />} />
-      <Route path="/share/:capsicumID" exact render={props => <Share {...props} />} />
-      <Route
-        path="/landing-page"
-        exact
-        render={props => <Landing {...props} />}
-      />
-      <Route path="/login-page" exact render={props => <Login {...props} />} />
-      <Route
-        path="/profile-page"
-        exact
-        render={props => <Profile {...props} />}
-      />
-      <Route
-        path="/register-page"
-        exact
-        render={props => <Register {...props} />}
-      /> 
+      <Route path="/register"  render={props => <Register {...props} />} />
+      <Route path="/capsule-maker"  render={props => <CapsuleMaker {...props} />} />
+      <Route path="/viewer/:capsicumID" render={props => <CapsuleViewer {...props} />} />
+      <Route path="/about" render={props => <About {...props} />} />
+      <Route path="/share/:capsicumID" render={props => <Share {...props} />} />
+      <Route path="/login-page" render={props => <Login {...props} />} />
       <Redirect to="/" />
     </Switch>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById("root")
 );
