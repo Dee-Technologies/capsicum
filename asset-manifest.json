@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/capsicum/static/css/main.1e3d489f.chunk.css",
+    "main.js": "/capsicum/static/js/main.e65d62e7.chunk.js",
+    "main.js.map": "/capsicum/static/js/main.e65d62e7.chunk.js.map",
+    "runtime-main.js": "/capsicum/static/js/runtime-main.d66d8309.js",
+    "runtime-main.js.map": "/capsicum/static/js/runtime-main.d66d8309.js.map",
+    "static/js/2.c7fc2d0a.chunk.js": "/capsicum/static/js/2.c7fc2d0a.chunk.js",
+    "static/js/2.c7fc2d0a.chunk.js.map": "/capsicum/static/js/2.c7fc2d0a.chunk.js.map",
+    "index.html": "/capsicum/index.html",
+    "precache-manifest.9a0f96d6d04e5179a358bd9eb4a57e53.js": "/capsicum/precache-manifest.9a0f96d6d04e5179a358bd9eb4a57e53.js",
+    "service-worker.js": "/capsicum/service-worker.js",
+    "static/css/main.1e3d489f.chunk.css.map": "/capsicum/static/css/main.1e3d489f.chunk.css.map",
+    "static/js/2.c7fc2d0a.chunk.js.LICENSE.txt": "/capsicum/static/js/2.c7fc2d0a.chunk.js.LICENSE.txt",
+    "static/js/main.e65d62e7.chunk.js.LICENSE.txt": "/capsicum/static/js/main.e65d62e7.chunk.js.LICENSE.txt",
+    "static/media/argon-react-white.png": "/capsicum/static/media/argon-react-white.275a2629.png",
+    "static/media/argon-react.png": "/capsicum/static/media/argon-react.f38ddea9.png",
+    "static/media/bg-banner.png": "/capsicum/static/media/bg-banner.65c1e008.png",
+    "static/media/capsicum-logo.svg": "/capsicum/static/media/capsicum-logo.395cdf98.svg",
+    "static/media/capsicum-text-logo.svg": "/capsicum/static/media/capsicum-text-logo.26747c77.svg",
+    "static/media/capsicumlogo.svg": "/capsicum/static/media/capsicumlogo.54b282db.svg",
+    "static/media/font-awesome.min.css": "/capsicum/static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/github.svg": "/capsicum/static/media/github.4ffd4fe7.svg",
+    "static/media/google.svg": "/capsicum/static/media/google.87be59a1.svg",
+    "static/media/img-1-1200x1000.jpg": "/capsicum/static/media/img-1-1200x1000.1e7c70dc.jpg",
+    "static/media/img-2-1200x1000.jpg": "/capsicum/static/media/img-2-1200x1000.ba449a06.jpg",
+    "static/media/landing.jpg": "/capsicum/static/media/landing.0ec26478.jpg",
+    "static/media/nucleo.css": "/capsicum/static/media/nucleo-icons.f82ec6ba.ttf",
+    "static/media/profile.jpg": "/capsicum/static/media/profile.278a0d25.jpg",
+    "static/media/team-1-800x800.jpg": "/capsicum/static/media/team-1-800x800.53033970.jpg",
+    "static/media/team-2-800x800.jpg": "/capsicum/static/media/team-2-800x800.dcfcf3b7.jpg",
+    "static/media/team-3-800x800.jpg": "/capsicum/static/media/team-3-800x800.497bb359.jpg",
+    "static/media/team-4-800x800.jpg": "/capsicum/static/media/team-4-800x800.23007132.jpg",
+    "static/media/testphotoone.JPG": "/capsicum/static/media/testphotoone.7b19528b.JPG",
+    "static/media/testphototwo.JPG": "/capsicum/static/media/testphototwo.f51c6b86.JPG"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d66d8309.js",
+    "static/js/2.c7fc2d0a.chunk.js",
+    "static/css/main.1e3d489f.chunk.css",
+    "static/js/main.e65d62e7.chunk.js"
+  ]
+}
