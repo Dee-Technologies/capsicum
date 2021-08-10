@@ -42,6 +42,8 @@ class CapsuleViewer extends React.Component {
             isParticleOpen: false,
             presentationActive: "hidden", // Display status for presentation mode
             carouselImages: ["https://picsum.photos/200/300"], // Array with carousel images
+            openImageDescription: "",
+            openImageName: ""
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -92,8 +94,12 @@ class CapsuleViewer extends React.Component {
 
         for (var i in media) {
             console.log("fef", media[i])
+
             var imgObject = {
-                src: media[i].img
+                src: media[i].img,
+                fileNum: i,
+                name: media[i].name,
+                description: media[i].description
             }
 
             carouselImages.push(media[i].img)
@@ -134,40 +140,15 @@ class CapsuleViewer extends React.Component {
     }
 
     canvasClicked(event, particles) {
-        const particlesArray = this.refs.tsparticles.state.library.particles.array;
-        const clickLocationX = event.clientX;
-        const clickLocationY = event.clientY;
-        console.log(particles)
-
-        // const particleClicked = this.findParticleClicked(clickLocationX, clickLocationY, particlesArray);
-        // // console.log(event, event.x, event.y)
-        // if (particleClicked) {
-        //     this.setState({
-        //         isParticleOpen: true,
-        //         openImage: particleClicked.shapeData.src
-        //     })
-        // }
-    }
-
-    findParticleClicked(clickLocationX, clickLocationY, particlesArray) {
-        for (var particleIdx in particlesArray) {
-            var particleObject = particlesArray[particleIdx];   
-            var particleX = particleObject.position.x;
-            var particleY = particleObject.position.y;
-            var particleSize = (particleObject.size.value / 100 ) * window.screen.height;
-            // console.log(particleObject.size)
-            var particleUpperBoundX = particleX + particleSize;
-            var particleUpperBoundY = particleY + particleSize;
-            // console.log(particleX, particleY, particleUpperBoundX, particleUpperBoundY, particleSize)
-            var matchX = ((particleX <= clickLocationX) && (clickLocationX <= particleUpperBoundX));
-            var matchY = ((particleY <= clickLocationY) && (clickLocationY <= particleUpperBoundY));
-
-            // console.log(matchX, matchY)
-            if (matchX && matchY) {                                                                                                                                                                                     
-                // console.log(particleObject)
-                return particleObject;
-            }
-        } 
+        if (particles.length > 0) {
+            console.log(particles[0].shapeData.fileNum);
+            this.setState({
+                isParticleOpen: true,
+                openImage: particles[0].shapeData.src,
+                openImageName: particles[0].shapeData.name,
+                openImageDescription: particles[0].shapeData.description
+            })
+        }
     }
 
     particlesInit(main) {
@@ -234,11 +215,20 @@ class CapsuleViewer extends React.Component {
                         {/* </div> */}
                     </SimpleCarousel>
                 </div>
-                <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "80vh", height: "30vh", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
-                   <div style={{width: "80vh", height: "30vh"}}>
-                       <img src={this.state.openImage} style={{width: "25vh", height: "25vh"}}></img>
-                   </div>
-                </Modal>
+                <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
+                    <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "130vh", height: "60vh"}} size={"lg"}>
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "5vh"}}>
+                            <div style={{}}>
+                                <img src={this.state.openImage} style={{maxWidth: "40vh", maxHeight: "25vh", borderRadius: "10px"}}></img>
+                            </div>
+                            <div>
+                                <h1>{this.state.openImageName}</h1>
+                                <br></br>
+                                <p>{this.state.openImageDescription}</p>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>
                     <Particles 
@@ -285,7 +275,7 @@ class CapsuleViewer extends React.Component {
                         size: {
                             value: 20,
                             random: {
-                                enable: false,
+                                enable: true,
                                 minimumValue: 10
                             },
                             animation: {
@@ -304,16 +294,16 @@ class CapsuleViewer extends React.Component {
                         },
                         move: {
                             enable: true,
-                            speed: 1,
+                            speed: 2,
                             direction: "none",
                             random: false,
                             straight: false,
                             outMode: "out",
-                            // attract: {
-                            // enable: false,
-                            // rotateX: 600,
-                            // rotateY: 1200
-                            // }
+                            attract: {
+                            enable: true,
+                            rotateX: 600,
+                            rotateY: 1200
+                            }
                         }
                         },
                         interactivity: {
