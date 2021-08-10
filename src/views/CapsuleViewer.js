@@ -135,6 +135,14 @@ class CapsuleViewer extends React.Component {
         const clickLocationX = event.x;
         const clickLocationY = event.y;
 
+        const particleClicked = this.findParticleClicked(clickLocationX, clickLocationY, particlesArray);
+
+        if (particleClicked) {
+            console.log(particleClicked)
+        }
+    }
+
+    findParticleClicked(clickLocationX, clickLocationY, particlesArray) {
         for (var particleIdx in particlesArray) {
             var particleObject = particlesArray[particleIdx];   
             var particleX = particleObject.position.x;
@@ -152,13 +160,9 @@ class CapsuleViewer extends React.Component {
 
             // console.log(matchX, matchY)
             if (matchX && matchY) {
-                console.log("hit", particleObject)
+                return particleObject;
             }
-        }
-    }
-
-    findParticleClicked() {
-        
+        } 
     }
 
     particlesInit(main) {
