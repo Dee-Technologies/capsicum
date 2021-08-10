@@ -127,12 +127,38 @@ class CapsuleViewer extends React.Component {
     }
 
     particlesLoaded(container) {
-        console.log(container);
-        container.addClickHandler((event, particles) => this.particleClicked(event, particles))
+        container.addClickHandler((event, particles) => this.canvasClicked(event, particles))
     }
 
-    particleClicked(event, particles) {
-        console.log(event, particles)
+    canvasClicked(event, particles) {
+        const particlesArray = this.refs.tsparticles.state.library.particles.array;
+        const clickLocationX = event.x;
+        const clickLocationY = event.y;
+
+        for (var particleIdx in particlesArray) {
+            var particleObject = particlesArray[particleIdx];   
+            var particleX = particleObject.position.x;
+            var particleY = particleObject.position.y;
+
+            var particleSize = (particleObject.size.value / 100) * window.screen.height / 2;
+            var particleLowerBoundX = particleX - particleSize;
+            var particleUpperBoundX = particleX + particleSize;
+
+            var particleLowerBoundY = particleY - particleSize;
+            var particleUpperBoundY = particleY + particleSize;
+            // console.log(clickLocationX, clickLocationY, particleLowerBoundY, particleUpperBoundY, particleSize)
+            var matchX = ((particleLowerBoundX <= clickLocationX) && (clickLocationX <= particleUpperBoundX));
+            var matchY = ((particleLowerBoundY <= clickLocationY) && (clickLocationY <= particleUpperBoundY));
+
+            // console.log(matchX, matchY)
+            if (matchX && matchY) {
+                console.log("hit", particleObject)
+            }
+        }
+    }
+
+    findParticleClicked() {
+        
     }
 
     particlesInit(main) {
@@ -204,7 +230,7 @@ class CapsuleViewer extends React.Component {
                     <Particles 
                         init={(m) => this.particlesInit(m)} 
                         loaded={(c) => this.particlesLoaded(c)}
-                        
+                        ref="tsparticles"
                         options={{
                         fpsLimit: 60,
                         backgroundMode: {
