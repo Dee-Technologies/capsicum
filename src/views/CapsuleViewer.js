@@ -4,6 +4,7 @@ import { Carousel,
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
+    Modal
 } from "reactstrap";
 import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
@@ -35,8 +36,10 @@ class CapsuleViewer extends React.Component {
             optionsVisiblity: "hidden",
             capsicumLockDisplay: "none",
             loadingStatus: true,
-            particleSpeed: 5,
+            particleSpeed: 2,
             presentationToggle: false,
+            openImage: "",
+            isParticleOpen: false,
             presentationActive: "hidden", // Display status for presentation mode
             carouselImages: ["https://picsum.photos/200/300"], // Array with carousel images
         }
@@ -132,14 +135,18 @@ class CapsuleViewer extends React.Component {
 
     canvasClicked(event, particles) {
         const particlesArray = this.refs.tsparticles.state.library.particles.array;
-        const clickLocationX = event.x;
-        const clickLocationY = event.y;
+        const clickLocationX = event.clientX;
+        const clickLocationY = event.clientY;
+        console.log(particles)
 
-        const particleClicked = this.findParticleClicked(clickLocationX, clickLocationY, particlesArray);
-
-        if (particleClicked) {
-            console.log(particleClicked)
-        }
+        // const particleClicked = this.findParticleClicked(clickLocationX, clickLocationY, particlesArray);
+        // // console.log(event, event.x, event.y)
+        // if (particleClicked) {
+        //     this.setState({
+        //         isParticleOpen: true,
+        //         openImage: particleClicked.shapeData.src
+        //     })
+        // }
     }
 
     findParticleClicked(clickLocationX, clickLocationY, particlesArray) {
@@ -147,19 +154,17 @@ class CapsuleViewer extends React.Component {
             var particleObject = particlesArray[particleIdx];   
             var particleX = particleObject.position.x;
             var particleY = particleObject.position.y;
-
-            var particleSize = (particleObject.size.value / 100) * window.screen.height / 2;
-            var particleLowerBoundX = particleX - particleSize;
+            var particleSize = (particleObject.size.value / 100 ) * window.screen.height;
+            // console.log(particleObject.size)
             var particleUpperBoundX = particleX + particleSize;
-
-            var particleLowerBoundY = particleY - particleSize;
             var particleUpperBoundY = particleY + particleSize;
-            // console.log(clickLocationX, clickLocationY, particleLowerBoundY, particleUpperBoundY, particleSize)
-            var matchX = ((particleLowerBoundX <= clickLocationX) && (clickLocationX <= particleUpperBoundX));
-            var matchY = ((particleLowerBoundY <= clickLocationY) && (clickLocationY <= particleUpperBoundY));
+            // console.log(particleX, particleY, particleUpperBoundX, particleUpperBoundY, particleSize)
+            var matchX = ((particleX <= clickLocationX) && (clickLocationX <= particleUpperBoundX));
+            var matchY = ((particleY <= clickLocationY) && (clickLocationY <= particleUpperBoundY));
 
             // console.log(matchX, matchY)
-            if (matchX && matchY) {
+            if (matchX && matchY) {                                                                                                                                                                                     
+                // console.log(particleObject)
                 return particleObject;
             }
         } 
@@ -229,12 +234,18 @@ class CapsuleViewer extends React.Component {
                         {/* </div> */}
                     </SimpleCarousel>
                 </div>
+                <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "80vh", height: "30vh", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
+                   <div style={{width: "80vh", height: "30vh"}}>
+                       <img src={this.state.openImage} style={{width: "25vh", height: "25vh"}}></img>
+                   </div>
+                </Modal>
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
                     <Container>
                     <Particles 
                         init={(m) => this.particlesInit(m)} 
                         loaded={(c) => this.particlesLoaded(c)}
                         ref="tsparticles"
+
                         options={{
                         fpsLimit: 60,
                         backgroundMode: {
@@ -255,7 +266,6 @@ class CapsuleViewer extends React.Component {
                         shape: {
                             type: [
                                 "image",
-                                "circle"
                             ],
                             images: this.state.particleImageData
                         },
@@ -274,7 +284,10 @@ class CapsuleViewer extends React.Component {
                         },
                         size: {
                             value: 20,
-                            random: true,
+                            random: {
+                                enable: false,
+                                minimumValue: 10
+                            },
                             animation: {
                                 enable: false,
                                 speed: 10,
@@ -291,23 +304,23 @@ class CapsuleViewer extends React.Component {
                         },
                         move: {
                             enable: true,
-                            speed: this.state.particleSpeed,
+                            speed: 1,
                             direction: "none",
                             random: false,
                             straight: false,
                             outMode: "out",
-                            attract: {
-                            enable: false,
-                            rotateX: 600,
-                            rotateY: 1200
-                            }
+                            // attract: {
+                            // enable: false,
+                            // rotateX: 600,
+                            // rotateY: 1200
+                            // }
                         }
                         },
                         interactivity: {
                         detectsOn: "canvas",
                         events: {
                             onClick: {
-                                enable: true,
+                                enable: false,
                                 mode: "push"
                             },
                             // onHover: {
