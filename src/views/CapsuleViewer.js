@@ -294,15 +294,15 @@ class CapsuleViewer extends React.Component {
                         },
                         move: {
                             enable: true,
-                            speed: 2,
+                            speed: 1,
                             direction: "none",
                             random: false,
                             straight: false,
                             outMode: "out",
                             attract: {
                             enable: true,
-                            rotateX: 600,
-                            rotateY: 1200
+                                rotateX: 600,
+                                rotateY: 1200
                             }
                         }
                         },

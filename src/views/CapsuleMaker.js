@@ -16,6 +16,7 @@ import uuid from 'react-uuid'
 import { createBrowserHistory } from 'history';
 
 import PacmanLoader from "react-spinners/PacmanLoader";
+import Cropper from 'react-easy-crop'
 
 class CapsuleMaker extends React.Component {
     constructor(props) {
@@ -35,7 +36,10 @@ class CapsuleMaker extends React.Component {
             pageOpacity: 1, // Page opacity. Changes on loading operations
             isErrorActive: false, // Boolean for if an error alert should be active
             errorMsg: "You need to upload at least one image", // Error message to display 
-            presentationActive: "none" // Display status for
+            presentationActive: "none", // Display status for
+            crop: { x: 0, y: 0 },
+            zoom: 1,
+            aspect: 4 / 3,
         }
     }
 
@@ -182,6 +186,17 @@ class CapsuleMaker extends React.Component {
             // For debugging purposes
             console.log(this.state.mediaData);
         })
+
+        // Particle canvas (for particle previews) setup
+        console.log(this.refs.particlePreview.getContext('2d'))
+        var canvasContext = this.refs.particlePreview.getContext('2d');
+        const particlePreviewImage = new Image();
+        particlePreviewImage.src = collectedData.img;
+        particlePreviewImage.style["objectFit"] = "cover";
+        particlePreviewImage.style.height = 200;
+        particlePreviewImage.style.width = 200;
+
+        canvasContext.drawImage(particlePreviewImage, 0, 0, particlePreviewImage.style.width, particlePreviewImage.style.height)
 
         // Setting the next image to display
         var numFiles = this.state.files.length
@@ -340,11 +355,17 @@ class CapsuleMaker extends React.Component {
                                 <img src={this.state.files[this.state.currentFileIdx]} style={{objectFit: "cover", height: "60vh", width: "60vh", borderRadius: "10px"}}></img>
                             </div>
                             <div style={{flexDirection: "column", width: "100vh"}}>
-                                <h1 className="capsicumName"  ref="imageName" style={{textAlign: "left", marginLeft: "5vh"}}
-                                onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
-                                    {this.state.imageTitle} 
-                                </h1>
-                                <Input type="textarea" style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}
+                                <div style={{flexDirection: "row", display: "flex"}}> 
+                                    <h1 className="capsicumName"  ref="imageName" style={{textAlign: "left", marginLeft: "5vh",flexDirection: "column" }}
+                                    onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
+                                        {this.state.imageTitle} 
+                                    </h1>
+                                    <div style={{flexDirection: "column"}}>
+                                        <canvas ref="particlePreview">
+                                        </canvas>
+                                    </div>
+                                </div>
+                                <Input ref="imageDescription" type="textarea" style={{width: "90vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}
                                  onChange={(e) => {this.setState({imageDescription: e.target.value})}} value= {this.state.imageDescription} placeholder="Tell us something about this photo..."></Input>
                                 <div className="buildCapsicumBtn" style={{display: this.state.nextButtonActive}}>
                                     <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
