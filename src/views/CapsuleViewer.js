@@ -23,6 +23,8 @@ import Slider from "nouislider";
 import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import SimpleCarousel from 'simple-react-carousel';
+import MemoryParticles from './MemoryParticles';
+import FadeIn from 'react-fade-in';
 
 class CapsuleViewer extends React.Component {
     constructor(props) {
@@ -43,7 +45,9 @@ class CapsuleViewer extends React.Component {
             presentationActive: "hidden", // Display status for presentation mode
             carouselImages: ["https://picsum.photos/200/300"], // Array with carousel images
             openImageDescription: "",
-            openImageName: ""
+            openImageName: "",
+            transitionToParticles: false,
+            transitionToLockScreen: true
         }
         this.particlesLoaded = this.particlesLoaded.bind(this);
     }
@@ -130,7 +134,9 @@ class CapsuleViewer extends React.Component {
             capsuleOpened: true,
             particleVisiblity: "visible",
             optionsVisiblity: "visible",
-            capsicumLockDisplay: "none"
+            capsicumLockDisplay: "none",
+            transitionToParticles: true,
+            transitionToLockScreen: false
         }, () => {
         })
     }
@@ -140,14 +146,28 @@ class CapsuleViewer extends React.Component {
     }
 
     canvasClicked(event, particles) {
+        console.log(particles)
         if (particles.length > 0) {
-            console.log(particles[0].shapeData.fileNum);
-            this.setState({
-                isParticleOpen: true,
-                openImage: particles[0].shapeData.src,
-                openImageName: particles[0].shapeData.name,
-                openImageDescription: particles[0].shapeData.description
-            })
+            if (particles[0].shapeData) {
+                console.log(particles[0].shapeData.fileNum);
+                this.setState({
+                    isParticleOpen: true,
+                    openImage: particles[0].shapeData.src,
+                    openImageName: particles[0].shapeData.name,
+                    openImageDescription: particles[0].shapeData.description
+                }, () => {
+                    console.log(this.refs.tsparticles.state)
+                })
+            }
+            // console.log(particles[0].shapeData.fileNum);
+            // this.setState({
+            //     isParticleOpen: true,
+            //     openImage: particles[0].shapeData.src,
+            //     openImageName: particles[0].shapeData.name,
+            //     openImageDescription: particles[0].shapeData.description
+            // }, () => {
+            //     console.log(this.refs.tsparticles.state)
+            // })
         }
     }
 
@@ -229,131 +249,274 @@ class CapsuleViewer extends React.Component {
                         </div>
                     </Modal>
                 </div>
+                {/* <MemoryParticles capsicumID={this.props.match.params.capsicumID}/> */}
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
-                    <Container>
-                    <Particles 
-                        init={(m) => this.particlesInit(m)} 
-                        loaded={(c) => this.particlesLoaded(c)}
-                        ref="tsparticles"
+                    <FadeIn visible={this.state.transitionToParticles}>
+                        <Container>
+                            <Particles 
+                                init={(m) => this.particlesInit(m)} 
+                                loaded={(c) => this.particlesLoaded(c)}
+                                ref="tsparticles"
 
-                        options={{
-                        fpsLimit: 60,
-                        backgroundMode: {
-                        enable: true,
-                        zIndex: 0
-                        },
-                        particles: {
-                        number: {
-                            value: 80,
-                            density: {
-                            enable: true,
-                            area: 800
-                            }
-                        },
-                        color: {
-                            value: "#ff0000",
-                        },
-                        shape: {
-                            type: [
-                                "image",
-                            ],
-                            images: this.state.particleImageData
-                        },
-                        stroke: {
-                            width: 0
-                        },
-                        opacity: {
-                            value: 0.5,
-                            random: false,
-                            animation: {
-                                enable: false,
-                                speed: 3,
-                                minimumValue: 0.1,
-                                sync: false
-                            }
-                        },
-                        size: {
-                            value: 20,
-                            random: {
+                                options={{
+                                fpsLimit: 60,
+                                backgroundMode: {
                                 enable: true,
-                                minimumValue: 10
-                            },
-                            animation: {
-                                enable: false,
-                                speed: 10,
-                                minimumValue: 0.1,
-                                sync: true
-                            }
-                        },
-                        links: {
-                            enable: true,
-                            distance: 100,
-                            color: "#d01717",
-                            opacity: 0.4,
-                            width: 1
-                        },
-                        move: {
-                            enable: true,
-                            speed: 1,
-                            direction: "none",
-                            random: false,
-                            straight: false,
-                            outMode: "out",
-                            attract: {
-                            enable: true,
-                                rotateX: 600,
-                                rotateY: 1200
-                            }
-                        }
-                        },
-                        interactivity: {
-                        detectsOn: "canvas",
-                        events: {
-                            onClick: {
-                                enable: false,
-                                mode: "push"
-                            },
-                            // onHover: {
-                            //     enable: true,
-                            //     mode: "repulse"
-                            // },
-                            resize: true
-                        },
-                        modes: {
-                            grab: {
-                            distance: 400,
-                            links: {
-                                opacity: 1
-                            }
-                            },
-                            bubble: {
-                            distance: 400,
-                            size: 40,
-                            duration: 2,
-                            opacity: 0.8
-                            },
-                            repulse: {
-                            distance: 200
-                            },
-                            push: {
-                            quantity: 4
-                            },
-                            remove: {
-                            quantity: 2
-                            }
-                        }
-                        },
-                        detectRetina: true,
-                    }}
+                                zIndex: 0
+                                },
+                                particles: {
+                                number: {
+                                    value: 80,
+                                    density: {
+                                    enable: true,
+                                    area: 800
+                                    }
+                                },
+                                // color: {
+                                //     value: "#ff0000",
+                                // },
+                                shape: {
+                                    type: [
+                                        "image",
+                                        "circle"
+                                    ],
+                                    images: this.state.particleImageData
+                                },
+                                stroke: {
+                                    width: 0
+                                },
+                                opacity: {
+                                    value: 0.5,
+                                    random: false,
+                                    animation: {
+                                        enable: false,
+                                        speed: 3,
+                                        minimumValue: 0.1,
+                                        sync: false
+                                    }
+                                },
+                                size: {
+                                    value: 15,
+                                    random: {
+                                        enable: true,
+                                        minimumValue: 1
+                                    },
+                                    animation: {
+                                        enable: false,
+                                        speed: 10,
+                                        minimumValue: 0.1,
+                                        sync: true
+                                    }
+                                },
+                                color: {
+                                    value: ["#4285f4", "#34A853", "#FBBC05", "#EA4335"]
+                                  },
+                                lineLinked: {
+                                    blink: false,
+                                    color: "random",
+                                    consent: false,
+                                    distance: 40,
+                                    enable: true,
+                                    opacity: 0.8,
+                                    width: 1
+                                },
+                                move: {
+                                    enable: true,
+                                    speed: 1,
+                                    direction: "none",
+                                    random: false,
+                                    straight: false,
+                                    outMode: "out",
+                                    attract: {
+                                    enable: true,
+                                        rotateX: 600,
+                                        rotateY: 1200
+                                    }
+                                }
+                                },
+                                interactivity: {
+                                detectsOn: "canvas",
+                                events: {
+                                    onClick: {
+                                        enable: false,
+                                        mode: "push"
+                                    },
+                                    onHover: {
+                                        enable: true,
+                                        mode: "bubble",
+                                        parallax: {
+                                          enable: false,
+                                          force: 2,
+                                          smooth: 10
+                                        }
+                                    },
+                                    // onHover: {
+                                    //     enable: true,
+                                    //     mode: "repulse"
+                                    // },
+                                    resize: true
+                                },
+                                modes: {
+                                    grab: {
+                                    distance: 400,
+                                    links: {
+                                        opacity: 1
+                                    }
+                                    },
+                                    bubble: {
+                                        distance: 70,
+                                        size: 40,
+                                        duration: 2,
+                                        opacity: 0.8
+                                    },
+                                    repulse: {
+                                    distance: 200
+                                    },
+                                    push: {
+                                    quantity: 4
+                                    },
+                                    remove: {
+                                    quantity: 2
+                                    }
+                                }
+                                },
+                                detectRetina: true,
+                            }}
 
-                    style={{
-                        visibility: this.state.particleVisiblity,
-                        position: "absolute",
-                        left: "0",
-                        top: "0"
-                    }}
-                    /> 
-                    </Container>
+                            style={{
+                                visibility: this.state.particleVisiblity,
+                                position: "absolute",
+                                left: "0",
+                                top: "0"
+                            }}
+                            /> 
+                            </Container>
+                        </FadeIn>
+                    {/* <Container>
+                        <Particles 
+                            init={(m) => this.particlesInit(m)} 
+                            loaded={(c) => this.particlesLoaded(c)}
+                            ref="tsparticles"
+
+                            options={{
+                            fpsLimit: 60,
+                            backgroundMode: {
+                            enable: true,
+                            zIndex: 0
+                            },
+                            particles: {
+                            number: {
+                                value: 80,
+                                density: {
+                                enable: true,
+                                area: 800
+                                }
+                            },
+                            color: {
+                                value: "#ff0000",
+                            },
+                            shape: {
+                                type: [
+                                    "image",
+                                    "circle"
+                                ],
+                                images: this.state.particleImageData
+                            },
+                            stroke: {
+                                width: 0
+                            },
+                            opacity: {
+                                value: 0.5,
+                                random: false,
+                                animation: {
+                                    enable: false,
+                                    speed: 3,
+                                    minimumValue: 0.1,
+                                    sync: false
+                                }
+                            },
+                            size: {
+                                value: 15,
+                                random: {
+                                    enable: true,
+                                    minimumValue: 1
+                                },
+                                animation: {
+                                    enable: false,
+                                    speed: 10,
+                                    minimumValue: 0.1,
+                                    sync: true
+                                }
+                            },
+                            links: {
+                                enable: true,
+                                distance: 100,
+                                color: "#d01717",
+                                opacity: 0.4,
+                                width: 1
+                            },
+                            move: {
+                                enable: true,
+                                speed: 1,
+                                direction: "none",
+                                random: false,
+                                straight: false,
+                                outMode: "out",
+                                attract: {
+                                enable: true,
+                                    rotateX: 600,
+                                    rotateY: 1200
+                                }
+                            }
+                            },
+                            interactivity: {
+                            detectsOn: "canvas",
+                            events: {
+                                onClick: {
+                                    enable: false,
+                                    mode: "push"
+                                },
+                                // onHover: {
+                                //     enable: true,
+                                //     mode: "repulse"
+                                // },
+                                resize: true
+                            },
+                            modes: {
+                                grab: {
+                                distance: 400,
+                                links: {
+                                    opacity: 1
+                                }
+                                },
+                                bubble: {
+                                distance: 400,
+                                size: 40,
+                                duration: 2,
+                                opacity: 0.8
+                                },
+                                repulse: {
+                                distance: 200
+                                },
+                                push: {
+                                quantity: 4
+                                },
+                                remove: {
+                                quantity: 2
+                                }
+                            }
+                            },
+                            detectRetina: true,
+                        }}
+
+                        style={{
+                            visibility: this.state.particleVisiblity,
+                            position: "absolute",
+                            left: "0",
+                            top: "0"
+                        }}
+                        /> 
+                    </Container> */}
                 </div>
                 {/* style={{
                             visibility: this.state.particleVisiblity,
