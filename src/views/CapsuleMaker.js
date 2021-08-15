@@ -110,7 +110,7 @@ class CapsuleMaker extends React.Component {
                 currentFiles.push(items[i]);
             }
 
-            if (items.length === 1) {
+            if (currentFiles.length === 1) {
                 this.setState({
                     files: currentFiles,
                     buildCapsicumButtonActive: "block"
@@ -146,7 +146,7 @@ class CapsuleMaker extends React.Component {
                 currentFiles.push(items[i]);
             }
 
-            if (items.length === 1) {
+            if (currentFiles.length === 1) {
                 this.setState({
                     files: currentFiles,
                     buildCapsicumButtonActive: "block"
