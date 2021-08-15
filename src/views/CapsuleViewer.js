@@ -22,6 +22,7 @@ import 'firebase/auth';
 import Slider from "nouislider";
 import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 import SimpleCarousel from 'simple-react-carousel';
 import MemoryParticles from './MemoryParticles';
 import FadeIn from 'react-fade-in';
@@ -180,17 +181,15 @@ class CapsuleViewer extends React.Component {
             <div style={{maxWidth: "100%", overflow: "hidden"}}>  
                 <div style={{display: this.state.capsicumLockDisplay, zIndex: "50"}}>
                     <Container onClick={() => this.openCapsule()}>
-                        <div class="capsicumPosition" ref="capsicum">
-                            <div className="bg capsicumLockedAnim flex" ref="capsicumInner">
-                                <div className="c" ref="capsicumOuter"></div>   
-                            </div>
-                        </div>
                         <br></br>
                         <h1 className="capsicumName">{this.state.capsicumData.capsicumName}</h1>
                         <p className="tapToExpand">Tap to expand</p>
+                        <div class="capsicumPosition" ref="capsicum">
+                            <ClipLoader size={200} style={{position: "absolute"}} color={"#36D7B7"} speedMultiplier={0.5}></ClipLoader>
+                        </div>
                     </Container> 
                 </div>
-                <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
+                {/* <div ref="optionsBox" style={{position: "absolute", left: "100%", top: "100%", transform: "translate(-100%, -100%)", zIndex: "10", width: "30vh", backgroundColor: "#fafafa", height: "12vh", 
                 display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderLeft: "0.5px solid #f0f0f0", borderRadius: "10px 0 0 0", borderTop: "0.5px solid #f0f0f0",  visibility: this.state.optionsVisiblity,}}>
                     <div style={{textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <label className="custom-toggle">
@@ -204,13 +203,13 @@ class CapsuleViewer extends React.Component {
                             <span className="custom-toggle-slider rounded-circle" />
                         </label>    
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Presentation</small>
-                    </div>
+                    </div> */}
                     {/* <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <Nouislider range={{ min: 0, max: 100 }} start={[this.state.particleSpeed]} style={{width: "15vh"}} 
                         onSlide={(value) => this.setState({particleSpeed: value[0]})} /> 
                         <small style={{position: "absolute", bottom: "1vh", marginTop: "5vh"}}>Speed</small>
                     </div> */}
-                </div>
+                {/* </div> */}
                 <div ref="presentationMode" style={{visibility: this.state.presentationActive, zIndex: "-51"}}>
                     <SimpleCarousel>
                         {/* <div>
