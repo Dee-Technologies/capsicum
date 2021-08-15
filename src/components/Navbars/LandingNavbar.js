@@ -39,7 +39,7 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 
-class DemoNavbar extends React.Component {
+class LandingNavbar extends React.Component {
   componentDidMount() {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
@@ -64,13 +64,12 @@ class DemoNavbar extends React.Component {
 
   render() {
     return (
-      <>
         <header className="header-global">
           <Navbar
             className="navbar-main headroom"
             expand="lg"
             id="navbar-main"
-            style={{backgroundColor: "#ffd7b3"}}
+            style={{backgroundColor: "#ffd7b3", position: "abso"}}
           >
             <Container>
               <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
@@ -79,7 +78,7 @@ class DemoNavbar extends React.Component {
                   src={require("assets/capsicum-logo.svg")}
                 />
               </NavbarBrand>
-              <button className="navbar-toggler" id="navbar_global">
+              {/* <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>
               <UncontrolledCollapse
@@ -106,8 +105,8 @@ class DemoNavbar extends React.Component {
                       </button>
                     </Col>
                   </Row>
-                </div>
-                <Nav className="align-items-lg-center ml-lg-auto" navbar>
+                </div> */}
+                {/* <Nav className="align-items-lg-center ml-lg-auto" navbar>
                   <NavItem className="d-none d-lg-block ml-lg-4">
                     <Link to="/about" style={{textDecoration: "none", padding: "1vh"}}>
                       <Button
@@ -129,14 +128,13 @@ class DemoNavbar extends React.Component {
                       </span>
                     </Button>
                   </NavItem>
-                </Nav>
-              </UncontrolledCollapse>
+                </Nav> */}
+              {/* </UncontrolledCollapse> */}
             </Container>
           </Navbar>
         </header>
-      </>
     );
   }
 }
 
-export default DemoNavbar;
+export default LandingNavbar;
