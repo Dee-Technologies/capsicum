@@ -4,30 +4,12 @@
   "version": "1.1.0",
   "description": "Capsicum",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-design-system-react.git"
-  },
   "keywords": [
     "react",
-    "reactjs",
-    "argon",
-    "argon-react",
-    "design",
-    "design-react",
-    "argon-design",
-    "argon-design-react",
-    "kit",
-    "react-kit",
-    "argon-design-system",
-    "argon-design-system-react",
-    "design-system-react"
+    "reactjs"
   ],
   "author": "Dillon de Silva",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-design-system-react/issues"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses",
