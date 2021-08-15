@@ -68,6 +68,7 @@ body {
   .capsicumPosition {
       top: 50%;
       left: 50%;
+      padding-top: 5vh;
       transform: translate(-50%, -50%);
       position: absolute;
   }
@@ -154,4 +155,18 @@ body {
 .capsicumLockedAnim {
     animation: anim 2s;
     animation-iteration-count: infinite;
+}
+
+.imageName {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 600;
+  float: right;
+  color: #2A1D59;
+}
+
+.imageDescription {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 300;
+  float: right;
+  color: #2A1D59;
 }

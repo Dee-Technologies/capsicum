@@ -81,6 +81,7 @@ class CapsuleMaker extends React.Component {
     // Adds files from a drop event
     addFilesFromDrop(e) {
         e.preventDefault();
+        const validImageTypes = ["image/png", "image/jpeg"]
         console.log(e.dataTransfer.items);
 
         var ps = [];
@@ -90,14 +91,28 @@ class CapsuleMaker extends React.Component {
             // If dropped items aren't files, reject them
             if (e.dataTransfer.items[i].kind === 'file') {
               var file = e.dataTransfer.items[i].getAsFile();
-              ps.push(this.fileToBlob(file));              
+              console.log(file.type)
+              if (file.type.includes('image')) {
+                ps.push(this.fileToBlob(file));        
+              } else {
+                this.setState({
+                    isErrorActive: true,
+                    errorMsg: "Please only upload .png or .jpg image files"
+                }) 
+                return; 
+              }           
             }
         }
         
         Promise.all(ps).then(items => {
+            var currentFiles = this.state.files;
+            for (var i = 0; i < items.length; i++) {
+                currentFiles.push(items[i]);
+            }
+
             if (items.length === 1) {
                 this.setState({
-                    files: items,
+                    files: currentFiles,
                     buildCapsicumButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -105,7 +120,7 @@ class CapsuleMaker extends React.Component {
                 })   
             } else {
                 this.setState({
-                    files: items,
+                    files: currentFiles,
                     nextButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -117,7 +132,6 @@ class CapsuleMaker extends React.Component {
 
     addFilesFromUpload(e) {
         var ps = [];
-
         // Iterate over dropped in files and add them to state
         for (var i = 0; i < e.target.files.length; i++) {
             // If dropped items aren't files, reject them
@@ -126,9 +140,15 @@ class CapsuleMaker extends React.Component {
         }
         
         Promise.all(ps).then(items => {
+            var currentFiles = this.state.files;
+            console.log(currentFiles)
+            for (var i = 0; i < items.length; i++) {
+                currentFiles.push(items[i]);
+            }
+
             if (items.length === 1) {
                 this.setState({
-                    files: items,
+                    files: currentFiles,
                     buildCapsicumButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -136,7 +156,7 @@ class CapsuleMaker extends React.Component {
                 })   
             } else {
                 this.setState({
-                    files: items,
+                    files: currentFiles,
                     nextButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -339,7 +359,8 @@ class CapsuleMaker extends React.Component {
                             <div className="fileInput">
                                 <Button className="btn-1" color="primary" size="sm" outline type="button" onClick={() => this.openFileExplorer()}>
                                     Upload Files
-                                    <input type="file" ref="fileBrowser" onChange={(e) => this.addFilesFromUpload(e)} style={{display: "none"}}/>
+                                    <input type="file" ref="fileBrowser" onChange={(e) => this.addFilesFromUpload(e)} style={{display: "none"}} 
+                                    accept="image/png, image/gif, image/jpeg"/>
                                 </Button>
                             </div>
                             <div>
@@ -371,10 +392,10 @@ class CapsuleMaker extends React.Component {
                                     <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
                                 </div> 
                                 <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                                    
+{/*                                     
                                     <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
                                         <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.previousImage()}>Back</Button>
-                                    </div> 
+                                    </div>  */}
                                     <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
                                         <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
                                     </div> 
