@@ -81,6 +81,17 @@ class CapsuleMaker extends React.Component {
     // Adds files from a drop event
     addFilesFromDrop(e) {
         e.preventDefault();
+
+        // Return if the user has uploaded the max usage limit
+        // per capsicum
+        if (this.state.files.length + e.dataTransfer.items.length >= 10) {
+            this.setState({
+                isErrorActive: true,
+                errorMsg: "Capsicums have a 10 photo limit!"
+            }) 
+            return;    
+        }
+
         const validImageTypes = ["image/png", "image/jpeg"]
         console.log(e.dataTransfer.items);
 
@@ -131,6 +142,16 @@ class CapsuleMaker extends React.Component {
     }
 
     addFilesFromUpload(e) {
+        // Return if the user has uploaded the max usage limit
+        // per capsicum
+        if (this.state.files.length + e.target.files.length >= 10) {
+            this.setState({
+                isErrorActive: true,
+                errorMsg: "Capsicums have a 10 photo limit!"
+            }) 
+            return;    
+        }
+
         var ps = [];
         // Iterate over dropped in files and add them to state
         for (var i = 0; i < e.target.files.length; i++) {
