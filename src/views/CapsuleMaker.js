@@ -16,7 +16,9 @@ import uuid from 'react-uuid'
 import { createBrowserHistory } from 'history';
 
 import PacmanLoader from "react-spinners/PacmanLoader";
-import Cropper from 'react-easy-crop'
+import Cropper from 'react-easy-crop';
+
+import convert from 'image-file-resize';
 
 class CapsuleMaker extends React.Component {
     constructor(props) {
@@ -70,11 +72,28 @@ class CapsuleMaker extends React.Component {
 
     // Returns file blob
     fileToBlob(file) {
+        // Need to do this to get dimensions
+        var fileAsImage = new Image();
+        // fileAsImage.src = 
         return new Promise((resolve) => {
-            // Read and return file blob
             const reader = new FileReader();
-            reader.onload = () => { resolve(reader.result) }
-            reader.readAsDataURL(file);
+            reader.onload = () => { 
+                resolve(reader.result); 
+            }
+
+            convert({ 
+                file: file,  
+                width: 500, 
+                height: 500, 
+                type: 'jpeg'
+            }).then(resp => {
+                console.log("compressed", resp)
+                reader.readAsDataURL(resp);
+            }).catch(error => {
+                
+            })
+            // Read and return file blob
+            // const reader = new FileReader();
         }) 
     }
 
@@ -102,7 +121,7 @@ class CapsuleMaker extends React.Component {
             // If dropped items aren't files, reject them
             if (e.dataTransfer.items[i].kind === 'file') {
               var file = e.dataTransfer.items[i].getAsFile();
-              console.log(file.type)
+              console.log("original file", file);
               if (file.type.includes('image')) {
                 ps.push(this.fileToBlob(file));        
               } else {
@@ -117,6 +136,7 @@ class CapsuleMaker extends React.Component {
         
         Promise.all(ps).then(items => {
             var currentFiles = this.state.files;
+            console.log("promise done", items)
             for (var i = 0; i < items.length; i++) {
                 currentFiles.push(items[i]);
             }
