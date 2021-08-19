@@ -18,7 +18,7 @@ import { createBrowserHistory } from 'history';
 import PacmanLoader from "react-spinners/PacmanLoader";
 import Cropper from 'react-easy-crop';
 
-import convert from 'image-file-resize';
+import imageCompression from 'browser-image-compression';
 
 class CapsuleMaker extends React.Component {
     constructor(props) {
@@ -74,6 +74,10 @@ class CapsuleMaker extends React.Component {
     fileToBlob(file) {
         // Need to do this to get dimensions
         var fileAsImage = new Image();
+        const options = {
+            maxSizeMB: 0.4,
+            fileType: "image/jpeg"
+        }
         // fileAsImage.src = 
         return new Promise((resolve) => {
             const reader = new FileReader();
@@ -81,12 +85,8 @@ class CapsuleMaker extends React.Component {
                 resolve(reader.result); 
             }
 
-            convert({ 
-                file: file,  
-                width: 500, 
-                height: 500, 
-                type: 'jpeg'
-            }).then(resp => {
+            imageCompression(file, options)
+            .then(resp => {
                 console.log("compressed", resp)
                 reader.readAsDataURL(resp);
             }).catch(error => {
