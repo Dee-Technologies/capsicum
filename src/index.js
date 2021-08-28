@@ -13,33 +13,46 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import MediaQuery from 'react-responsive'
 
 import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss?v1.1.0";
 
-import Index from "views/Index.js";
 import Landing from "views/Landing.js";
+import LandingMobile from "views/LandingMobile.js";
 import CapsuleMaker from "views/CapsuleMaker.js";
 import CapsuleViewer from "views/CapsuleViewer.js";
 import About from "views/About.js";
 import Register from "views/Register.js";
 import Login from "views/examples/Login.js";
-import Profile from "views/examples/Profile.js";
 import Share from "views/Share";
 
 ReactDOM.render(
-  <HashRouter>
-    <Switch>
-      <Route path="/" exact render={props => <Landing {...props} />} />
-      <Route path="/register"  render={props => <Register {...props} />} />
-      <Route path="/capsule-maker"  render={props => <CapsuleMaker {...props} />} />
-      <Route path="/viewer/:capsicumID" render={props => <CapsuleViewer {...props} />} />
-      <Route path="/about" render={props => <About {...props} />} />
-      <Route path="/share/:capsicumID" render={props => <Share {...props} />} />
-      <Route path="/login-page" render={props => <Login {...props} />} />
-      <Redirect to="/" />
-    </Switch>
-  </HashRouter>,
+  <div>
+    {/* minWidth 1224 corresponds to returning desktop/laptop experience */}
+    <MediaQuery minWidth={1224}>
+      <HashRouter>
+        <Switch>
+            <Route path="/" exact render={props => <Landing {...props} />} />
+            <Route path="/register"  render={props => <Register {...props} />} />
+            <Route path="/capsule-maker"  render={props => <CapsuleMaker {...props} />} />
+            <Route path="/viewer/:capsicumID" render={props => <CapsuleViewer {...props} />} />
+            <Route path="/about" render={props => <About {...props} />} />
+            <Route path="/share/:capsicumID" render={props => <Share {...props} />} />
+            <Route path="/login-page" render={props => <Login {...props} />} />
+            <Redirect to="/" /> 
+        </Switch>
+      </HashRouter>
+    </MediaQuery>
+    <MediaQuery minWidth={100}>
+      <HashRouter>
+        <Switch>
+          <Route path="/" exact render={props => <LandingMobile {...props} />} />
+          <Redirect to="/" /> 
+        </Switch>
+      </HashRouter>
+    </MediaQuery>
+  </div>,
   document.getElementById("root")
 );
