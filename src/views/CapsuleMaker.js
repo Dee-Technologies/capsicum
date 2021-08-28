@@ -154,6 +154,7 @@ class CapsuleMaker extends React.Component {
             if (currentFiles.length === 1) {
                 this.setState({
                     files: currentFiles,
+                    nextButtonActive: "none",
                     buildCapsicumButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -162,7 +163,8 @@ class CapsuleMaker extends React.Component {
             } else {
                 this.setState({
                     files: currentFiles,
-                    nextButtonActive: "block"
+                    nextButtonActive: "block",
+                    buildCapsicumButtonActive: "none"
                 }, () => {
                     console.log(this.state.files)
                     this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
@@ -200,6 +202,7 @@ class CapsuleMaker extends React.Component {
             if (currentFiles.length === 1) {
                 this.setState({
                     files: currentFiles,
+                    nextButtonActive: "none",
                     buildCapsicumButtonActive: "block"
                 }, () => {
                     console.log(this.state.files)
@@ -208,7 +211,8 @@ class CapsuleMaker extends React.Component {
             } else {
                 this.setState({
                     files: currentFiles,
-                    nextButtonActive: "block"
+                    nextButtonActive: "block",
+                    buildCapsicumButtonActive: "none"
                 }, () => {
                     console.log(this.state.files)
                     this.refs.filesSelected.innerHTML = this.state.files.length + " file(s) uploaded";
