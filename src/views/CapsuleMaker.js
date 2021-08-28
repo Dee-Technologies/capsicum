@@ -1,9 +1,7 @@
 import React from 'react';
 // import Button from './IndexSections/Buttons.js';
 import { Input, UncontrolledAlert, Button } from "reactstrap";
-import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
-import Inputs from './IndexSections/Inputs.js';
 import '../assets/scss/capsule-maker.scss';
 import Container from 'reactstrap/lib/Container';
 
@@ -13,13 +11,11 @@ import 'firebase/auth';
 
 import uuid from 'react-uuid'
 
-import { createBrowserHistory } from 'history';
-
 import PacmanLoader from "react-spinners/PacmanLoader";
-import Cropper from 'react-easy-crop';
 
 import imageCompression from 'browser-image-compression';
 
+// CapsuleMaker module is the page where people make capsicums
 class CapsuleMaker extends React.Component {
     constructor(props) {
         super(props);
@@ -38,13 +34,14 @@ class CapsuleMaker extends React.Component {
             pageOpacity: 1, // Page opacity. Changes on loading operations
             isErrorActive: false, // Boolean for if an error alert should be active
             errorMsg: "You need to upload at least one image", // Error message to display 
-            presentationActive: "none", // Display status for
+            presentationActive: "none", // Display status for presentation mode
             crop: { x: 0, y: 0 },
             zoom: 1,
             aspect: 4 / 3,
         }
     }
 
+    // When page loads (ie: component mounts)
     componentDidMount() {
         // For testing purposes
         localStorage.clear();
@@ -66,31 +63,37 @@ class CapsuleMaker extends React.Component {
         }
     }
 
+    // When the upload file button is clicked,
+    // this is triggered
     openFileExplorer() {
         this.refs.fileBrowser.click();
     }
 
     // Returns file blob
     fileToBlob(file) {
-        // Need to do this to get dimensions
-        var fileAsImage = new Image();
+        // options for image compression
         const options = {
-            maxSizeMB: 0.4,
+            maxSizeMB: 0.4, 
             fileType: "image/jpeg"
         }
-        // fileAsImage.src = 
+
         return new Promise((resolve) => {
+            // reader will take a file input
+            // and output the blob.
+
+            // this is async so hence we return a promise
             const reader = new FileReader();
             reader.onload = () => { 
                 resolve(reader.result); 
             }
 
+            // compress the image first and then read for the blob
             imageCompression(file, options)
             .then(resp => {
                 console.log("compressed", resp)
                 reader.readAsDataURL(resp);
             }).catch(error => {
-                
+                // error statement
             })
             // Read and return file blob
             // const reader = new FileReader();
@@ -99,9 +102,11 @@ class CapsuleMaker extends React.Component {
 
     // Adds files from a drop event
     addFilesFromDrop(e) {
+        // e.preventDefault() will prevent the default action of
+        // the browser opening the file 
         e.preventDefault();
 
-        // Return if the user has uploaded the max usage limit
+        // Return an error if the user has uploaded the max usage limit
         // per capsicum
         if (this.state.files.length + e.dataTransfer.items.length >= 10) {
             this.setState({
@@ -111,9 +116,8 @@ class CapsuleMaker extends React.Component {
             return;    
         }
 
-        const validImageTypes = ["image/png", "image/jpeg"]
-        console.log(e.dataTransfer.items);
-
+        // Promise array. This will store all the promises which
+        // can then be read when they are all resolved
         var ps = [];
 
         // Iterate over dropped in files and add them to state
@@ -125,6 +129,7 @@ class CapsuleMaker extends React.Component {
               if (file.type.includes('image')) {
                 ps.push(this.fileToBlob(file));        
               } else {
+                // If an uploaded file is not an image, issue an error
                 this.setState({
                     isErrorActive: true,
                     errorMsg: "Please only upload .png or .jpg image files"
@@ -134,13 +139,18 @@ class CapsuleMaker extends React.Component {
             }
         }
         
+        // Once all promises have been resolved within the ps array,
+        // we can go through them
         Promise.all(ps).then(items => {
             var currentFiles = this.state.files;
-            console.log("promise done", items)
+            
+            // iterate over the file blobs that were obtained from
+            // resolving the software
             for (var i = 0; i < items.length; i++) {
                 currentFiles.push(items[i]);
             }
-
+           
+            // get the 
             if (currentFiles.length === 1) {
                 this.setState({
                     files: currentFiles,

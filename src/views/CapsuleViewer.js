@@ -1,30 +1,20 @@
 import React from 'react';
 // import Button from './IndexSections/Buttons.js';
-import { Carousel,
-    CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
+import { 
     Modal
 } from "reactstrap";
-import TextField from '@material-ui/core/TextField';
 import Particles from 'react-tsparticles';
 
 import '../assets/scss/capsule-viewer.scss';
 import Container from 'reactstrap/lib/Container';
 
-import testPhotoOne from "assets/testphotoone.JPG"
-import testPhotoTwo from "assets/testphototwo.JPG"
-
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 
-import Slider from "nouislider";
-import Nouislider from "nouislider-react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import SimpleCarousel from 'simple-react-carousel';
-import MemoryParticles from './MemoryParticles';
 import FadeIn from 'react-fade-in';
 
 class CapsuleViewer extends React.Component {
