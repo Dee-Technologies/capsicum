@@ -45,7 +45,7 @@ ReactDOM.render(
         </Switch>
       </HashRouter>
     </MediaQuery>
-    <MediaQuery minWidth={100}>
+    <MediaQuery minWidth={300} orientation="portrait">
       <HashRouter>
         <Switch>
           <Route path="/" exact render={props => <LandingMobile {...props} />} />

@@ -4,8 +4,8 @@ class LandingMobile extends React.Component {
     render() {
         return (
             <div>
-                <h1>capsicum</h1>
-                <h2>fedwfsd</h2>
+                <h1>Capsicum</h1>
+                <p>We're currently working on our mobile experience. To view or create Capsicums, try using us on a laptop or desktop!</p>
             </div>
         )
     }
