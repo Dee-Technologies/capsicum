@@ -20,13 +20,15 @@ import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss?v1.1.0";
 
 import Landing from "views/Landing.js";
-import LandingMobile from "views/LandingMobile.js";
 import CapsuleMaker from "views/CapsuleMaker.js";
 import CapsuleViewer from "views/CapsuleViewer.js";
 import About from "views/About.js";
 import Register from "views/Register.js";
 import Login from "views/examples/Login.js";
 import Share from "views/Share";
+
+import LandingMobile from "views/LandingMobile.js";
+import CapsicumMakerMobile from "views/CapsicumMakerMobile.js";
 
 ReactDOM.render(
   <div>
@@ -49,6 +51,7 @@ ReactDOM.render(
       <HashRouter>
         <Switch>
           <Route path="/" exact render={props => <LandingMobile {...props} />} />
+          <Route path="/capsule-maker" exact render={props => <CapsicumMakerMobile {...props} />} />
           <Redirect to="/" /> 
         </Switch>
       </HashRouter>

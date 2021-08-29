@@ -14,10 +14,10 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 
 import imageCompression from 'browser-image-compression';
 
-// CapsuleMaker module is the page where people make capsicums
-class CapsuleMaker extends React.Component {
+class CapsicumMakerMobile extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             capsicumName: "Untitled Capsicum", // Capsicum Name
             files: [], // Array storing all the user input files
@@ -123,18 +123,18 @@ class CapsuleMaker extends React.Component {
         for (var i = 0; i < e.dataTransfer.items.length; i++) {
             // If dropped items aren't files, reject them
             if (e.dataTransfer.items[i].kind === 'file') {
-              var file = e.dataTransfer.items[i].getAsFile();
-              console.log("original file", file);
-              if (file.type.includes('image')) {
+            var file = e.dataTransfer.items[i].getAsFile();
+            console.log("original file", file);
+            if (file.type.includes('image')) {
                 ps.push(this.fileToBlob(file));        
-              } else {
+            } else {
                 // If an uploaded file is not an image, issue an error
                 this.setState({
                     isErrorActive: true,
                     errorMsg: "Please only upload .png or .jpg image files"
                 }) 
                 return; 
-              }           
+            }           
             }
         }
         
@@ -148,7 +148,7 @@ class CapsuleMaker extends React.Component {
             for (var i = 0; i < items.length; i++) {
                 currentFiles.push(items[i]);
             }
-           
+        
             // get the 
             if (currentFiles.length === 1) {
                 this.setState({
@@ -395,194 +395,134 @@ class CapsuleMaker extends React.Component {
     render() {
         return (
             <div>
-                <div style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "1"}}>
+               <div style={{position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "1"}}>
                     <PacmanLoader loading={this.state.loadingStatus} color={"#d01717"} />
                 </div> 
-                <div style={{opacity: this.state.pageOpacity}}>
-                    <Container style={{border: "1px solid #707070", width: "200vh", height: "80vh", borderRadius: "10px", backgroundColor: "#fafafa", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} >
-                        <div 
-                            onDrop={(e) => this.addFilesFromDrop(e)}
-                            onDragOver={(e) => { e.preventDefault();}}
-                            onDragEnter={(e) => { e.preventDefault();}}
-                            onDragLeave={(e) => { e.preventDefault();}}
-                            ref="fileUploadStep" 
-                            style={{display: this.state.fileUploadActive}}
-                        >
-                            <h1 className="capsicumName" ref="capsicumName" contentEditable>Untitled Capsicum</h1>
-                            <h2 className="dragAndDropText">Drag and drop your images here</h2>
-                            <div className="fileInput">
-                                <Button className="btn-1" color="primary" size="sm" outline type="button" onClick={() => this.openFileExplorer()}>
-                                    Upload Files
-                                    <input type="file" ref="fileBrowser" onChange={(e) => this.addFilesFromUpload(e)} style={{display: "none"}} 
-                                    accept="image/png, image/gif, image/jpeg"/>
-                                </Button>
-                            </div>
-                            <div>
-                                <p ref="filesSelected" className="filesSelected"></p>
-                            </div>
-                            <div className="buildCapsicumBtn">
-                                    <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.completeFileUpload()}>Next</Button>
-                            </div> 
-                        </div>
-                        
-                        <div style={{display: this.state.mediaEditorActive, flexDirection: "row", flexWrap: "nowrap", height: "100%", width: "200vh", alignItems: "center"}}>
-                            <div style={{flexDirection: "column", alignItems: "center"}}>
-                                <img src={this.state.files[this.state.currentFileIdx]} style={{maxWidth: "60vh", borderRadius: "10px"}}></img>
-                            </div>
-                            <div style={{flexDirection: "column", width: "100vh", alignItems: "center"}}>
-                                <div style={{flexDirection: "row", display: "flex"}}> 
-                                    <h1 className="capsicumName"  ref="imageName" style={{textAlign: "left", marginLeft: "5vh",flexDirection: "column" }}
-                                    onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
-                                        {this.state.imageTitle} 
-                                    </h1>
-                                    <div style={{flexDirection: "column"}}>
-                                        <canvas ref="particlePreview">
-                                        </canvas>
-                                    </div>
-                                </div>
-                                <Input ref="imageDescription" type="textarea" style={{width: "70vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}
-                                 onChange={(e) => {this.setState({imageDescription: e.target.value})}} value= {this.state.imageDescription} placeholder="Tell us something about this photo..."></Input>
-                                <div className="buildCapsicumBtn" style={{display: this.state.nextButtonActive}}>
-                                    <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>
-                                </div> 
-                                <div>
-                                    <div className="buildCapsicumBtn" style={{display: this.state.buildCapsicumButtonActive}}>
-                                        <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.buildCapsicum()}>Build Capsicum</Button>
-                                    </div> 
-                                </div>
-                            </div>  
-                        </div>
-                        <UncontrolledAlert isOpen={this.state.isErrorActive} color="danger" fade={true} toggle={() => this.setState({isErrorActive: false})}style={{width: "40%", bottom: "0", position: "absolute", height: "10vh"}}>
-                        <span className="alert-inner--icon">
-                            <i className="ni ni-support-16" />
-                        </span>
-                        <span className="alert-inner--text ml-1">
-                            {this.state.errorMsg}
-                        </span>
-                        </UncontrolledAlert>
-                    </Container> 
-                    <Particles 
-                            options={{
-                            fpsLimit: 60,
-                            backgroundMode: {
-                            enable: true,
-                            zIndex: -3
-                            },
-                            particles: {
-                            number: {
-                                value: 120,
-                                density: {
-                                enable: true,
-                                area: 800
-                                }
-                            },
-                            color: {
-                                value: "#ff0000",
-                                animation: {
-                                enable: true,
-                                speed: 20,
-                                sync: true
-                                }
-                            },
-                            shape: {
-                                type: [
-                                    "circle"
-                                ],
-                            },
-                            stroke: {
-                                width: 0
-                            },
-                            opacity: {
-                                value: 0.5,
-                                random: false,
-                                animation: {
-                                    enable: false,
-                                    speed: 3,
-                                    minimumValue: 0.1,
-                                    sync: false
-                                }
-                            },
-                            size: {
-                                value: 5,
-                                random: true,
-                                animation: {
-                                    enable: false,
-                                    speed: 20,
-                                    minimumValue: 0.1,
-                                    sync: true
-                                }
-                            },
-                            links: {
-                                enable: true,
-                                distance: 100,
-                                color: "#d01717",
-                                opacity: 0.4,
-                                width: 1
-                            },
-                            move: {
-                                enable: true,
-                                speed: 6,
-                                direction: "none",
-                                random: false,
-                                straight: false,
-                                outMode: "out",
-                                attract: {
-                                enable: false,
-                                rotateX: 600,
-                                rotateY: 1200
-                                }
-                            }
-                            },
-                            interactivity: {
-                            detectsOn: "canvas",
-                            events: {
-                                onClick: {
-                                    enable: true,
-                                    mode: "push"
-                                },
-                                onHover: {
-                                    enable: true,
-                                    mode: "repulse"
-                                },
-                                resize: true
-                            },
-                            modes: {
-                                grab: {
-                                distance: 400,
-                                links: {
-                                    opacity: 1
-                                }
-                                },
-                                bubble: {
-                                distance: 400,
-                                size: 40,
-                                duration: 2,
-                                opacity: 0.8
-                                },
-                                repulse: {
-                                distance: 200
-                                },
-                                push: {
-                                quantity: 4
-                                },
-                                remove: {
-                                quantity: 2
-                                }
-                            }
-                            },
-                            detectRetina: true,
-                        }}
-
-                        style={{
-                            position: "absolute",
-                            left: "0",
-                            top: "0"
-                        }}
-                        /> 
+                <div>
+                    <h1 className="capsicumName" ref="capsicumName" contentEditable>Untitled Capsicum</h1>
                 </div>
+                <Particles 
+                    options={{
+                    fpsLimit: 60,
+                    backgroundMode: {
+                    enable: true,
+                    zIndex: -3
+                    },
+                    particles: {
+                    number: {
+                        value: 120,
+                        density: {
+                        enable: true,
+                        area: 800
+                        }
+                    },
+                    color: {
+                        value: "#ff0000",
+                        animation: {
+                        enable: true,
+                        speed: 20,
+                        sync: true
+                        }
+                    },
+                    shape: {
+                        type: [
+                            "circle"
+                        ],
+                    },
+                    stroke: {
+                        width: 0
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false,
+                        animation: {
+                            enable: false,
+                            speed: 3,
+                            minimumValue: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 5,
+                        random: true,
+                        animation: {
+                            enable: false,
+                            speed: 20,
+                            minimumValue: 0.1,
+                            sync: true
+                        }
+                    },
+                    links: {
+                        enable: true,
+                        distance: 100,
+                        color: "#d01717",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        outMode: "out",
+                        attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                        }
+                    }
+                    },
+                    interactivity: {
+                    detectsOn: "canvas",
+                    events: {
+                        onClick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        onHover: {
+                            enable: true,
+                            mode: "repulse"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                        distance: 400,
+                        links: {
+                            opacity: 1
+                        }
+                        },
+                        bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 0.8
+                        },
+                        repulse: {
+                        distance: 200
+                        },
+                        push: {
+                        quantity: 4
+                        },
+                        remove: {
+                        quantity: 2
+                        }
+                    }
+                    },
+                    detectRetina: true,
+                }}
+
+                style={{
+                    position: "absolute",
+                    left: "0",
+                    top: "0",
+                    opacity: 0.3
+                }}
+            /> 
             </div>
         )
     }
 }
 
-export default CapsuleMaker;
+export default CapsicumMakerMobile;
