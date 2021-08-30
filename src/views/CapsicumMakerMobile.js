@@ -406,7 +406,7 @@ class CapsicumMakerMobile extends React.Component {
                     onDragEnter={(e) => { e.preventDefault();}}
                     onDragLeave={(e) => { e.preventDefault();}}
                     ref="fileUploadStep" 
-                    style={{display: this.state.fileUploadActive}}
+                    style={{display: this.state.fileUploadActive, opacity: this.state.pageOpacity}}
                 >
                     <h1 className="capsicumName" ref="capsicumName" style={{width: "40vh"}}contentEditable>Untitled Capsicum</h1>
                     <div className="fileInput">

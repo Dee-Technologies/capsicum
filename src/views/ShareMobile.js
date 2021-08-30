@@ -48,7 +48,7 @@ class ShareMobile extends React.Component {
                             <span className="btn-inner--icon mr-1">
                                 <i className="ni ni-single-copy-04" />
                             </span>
-                            <span className="btn-i  ner--text">Copy to Clipboard</span>
+                            <span className="btn-i  ner--text">Copy</span>
                             </Button>
                             <div style={{paddingTop: "2vh"}}>
                                 <Button onClick={() => this.viewCapsicum()}>View Capsicum</Button>    
@@ -60,7 +60,7 @@ class ShareMobile extends React.Component {
                                 <i className="ni ni-like-2" />
                             </span>
                             <span className="alert-inner--text ml-1">
-                                <strong>Copied</strong> to clipboard!
+                                <strong>Copied</strong>!
                             </span>
                     </UncontrolledAlert>
                 </div>
