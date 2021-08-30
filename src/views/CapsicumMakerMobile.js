@@ -427,7 +427,7 @@ class CapsicumMakerMobile extends React.Component {
                 </div>
                 <div style={{display: this.state.mediaEditorActive, flexDirection: "column", flexWrap: "nowrap", height: "100%", width: "50vh", alignItems: "center"}}>
                     <div style={{flexDirection: "row", alignItems: "center"}}>
-                        <img src={this.state.files[this.state.currentFileIdx]} style={{maxWidth: "35vh", borderRadius: "10px"}}></img>
+                        <img src={this.state.files[this.state.currentFileIdx]} style={{maxWidth: "35vh", maxHeight: "30vh", borderRadius: "10px"}}></img>
                     </div>
                     <div style={{flexDirection: "row", alignItems: "center"}}>
                         <div style={{flexDirection: "row", display: "flex"}}> 
