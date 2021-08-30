@@ -414,7 +414,7 @@ class CapsuleMaker extends React.Component {
                                 <Button className="btn-1" color="primary" size="sm" outline type="button" onClick={() => this.openFileExplorer()}>
                                     Upload Files
                                     <input type="file" ref="fileBrowser" onChange={(e) => this.addFilesFromUpload(e)} style={{display: "none"}} 
-                                    accept="image/png, image/gif, image/jpeg"/>
+                                    accept="image/png, image/gif, image/jpeg" multiple/>
                                 </Button>
                             </div>
                             <div>
