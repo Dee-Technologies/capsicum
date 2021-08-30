@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 import { Input, UncontrolledAlert, Button } from "reactstrap";
 import Particles from 'react-tsparticles';
@@ -262,15 +263,15 @@ class CapsicumMakerMobile extends React.Component {
         })
 
         // Particle canvas (for particle previews) setup
-        console.log(this.refs.particlePreview.getContext('2d'))
-        var canvasContext = this.refs.particlePreview.getContext('2d');
-        const particlePreviewImage = new Image();
-        particlePreviewImage.src = collectedData.img;
-        particlePreviewImage.style["objectFit"] = "cover";
-        particlePreviewImage.style.height = 200;
-        particlePreviewImage.style.width = 200;
+        // console.log(this.refs.particlePreview.getContext('2d'))
+        // var canvasContext = this.refs.particlePreview.getContext('2d');
+        // const particlePreviewImage = new Image();
+        // particlePreviewImage.src = collectedData.img;
+        // particlePreviewImage.style["objectFit"] = "cover";
+        // particlePreviewImage.style.height = 200;
+        // particlePreviewImage.style.width = 200;
 
-        canvasContext.drawImage(particlePreviewImage, 0, 0, particlePreviewImage.style.width, particlePreviewImage.style.height)
+        // canvasContext.drawImage(particlePreviewImage, 0, 0, particlePreviewImage.style.width, particlePreviewImage.style.height)
 
         // Setting the next image to display
         var numFiles = this.state.files.length
@@ -424,22 +425,18 @@ class CapsicumMakerMobile extends React.Component {
                     </div> 
                 </div>
                 </div>
-                <div style={{display: this.state.mediaEditorActive, flexDirection: "row", flexWrap: "nowrap", height: "100%", width: "50vh", alignItems: "center"}}>
-                    <div style={{flexDirection: "column", alignItems: "center"}}>
-                        <img src={this.state.files[this.state.currentFileIdx]} style={{maxWidth: "20vh", borderRadius: "10px"}}></img>
+                <div style={{display: this.state.mediaEditorActive, flexDirection: "column", flexWrap: "nowrap", height: "100%", width: "50vh", alignItems: "center"}}>
+                    <div style={{flexDirection: "row", alignItems: "center"}}>
+                        <img src={this.state.files[this.state.currentFileIdx]} style={{maxWidth: "35vh", borderRadius: "10px"}}></img>
                     </div>
-                    <div style={{flexDirection: "column", width: "10vh", alignItems: "center"}}>
+                    <div style={{flexDirection: "row", alignItems: "center"}}>
                         <div style={{flexDirection: "row", display: "flex"}}> 
-                            <h1 className="capsicumName"  ref="imageName" style={{textAlign: "left", marginLeft: "5vh",flexDirection: "column" }}
+                            <h1 className="capsicumNameMobile" style={{paddingTop: "1vh"}}ref="imageName" style={{textAlign: "center"}}
                             onChange={(e) => {this.setState({imageTitle: e.target.value})}} contentEditable>
                                 {this.state.imageTitle} 
                             </h1>
-                            <div style={{flexDirection: "column"}}>
-                                <canvas ref="particlePreview">
-                                </canvas>
-                            </div>
                         </div>
-                        <Input ref="imageDescription" type="textarea" style={{width: "10vh", height: "20vh", backgroundColor: "#fafafa", marginLeft: "5vh", borderRadius: "10px", resize: "none"}}
+                        <Input ref="imageDescription" type="textarea" style={{width: "50vh", height: "15vh", backgroundColor: "#fafafa", borderRadius: "10px", resize: "none"}}
                             onChange={(e) => {this.setState({imageDescription: e.target.value})}} value= {this.state.imageDescription} placeholder="Tell us something about this photo..."></Input>
                         <div className="buildCapsicumBtn" style={{display: this.state.nextButtonActive}}>
                             <Button className="btn-1 ml-1" color="success" type="button" onClick={() => this.nextImage()}>Next</Button>

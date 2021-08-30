@@ -29,6 +29,8 @@ import Share from "views/Share";
 
 import LandingMobile from "views/LandingMobile.js";
 import CapsicumMakerMobile from "views/CapsicumMakerMobile.js";
+import CapsicumViewerMobile from "views/CapsicumViewerMobile.js";
+import ShareMobile from "views/ShareMobile";
 
 ReactDOM.render(
   <div>
@@ -52,6 +54,8 @@ ReactDOM.render(
         <Switch>
           <Route path="/" exact render={props => <LandingMobile {...props} />} />
           <Route path="/capsule-maker" exact render={props => <CapsicumMakerMobile {...props} />} />
+          <Route path="/viewer/:capsicumID" render={props => <CapsicumViewerMobile {...props} />} />
+          <Route path="/share/:capsicumID" render={props => <ShareMobile {...props} />} />
           <Redirect to="/" /> 
         </Switch>
       </HashRouter>
