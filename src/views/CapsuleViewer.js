@@ -225,7 +225,7 @@ class CapsuleViewer extends React.Component {
                     </SimpleCarousel>
                 </div>
                 <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
-                    <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "3000vh", height: "60vh"}} size={"lg"} centred={true}>
+                    <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "3000vh", height: "60vh"}} size={"lg"} centered={true}>
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "5vh"}}>
                             <div>
                                 <img src={this.state.openImage} style={{maxWidth: "50vh", maxHeight: "50vh", borderRadius: "10px"}}></img>
