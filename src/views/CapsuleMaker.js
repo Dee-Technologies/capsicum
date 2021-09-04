@@ -107,10 +107,10 @@ class CapsuleMaker extends React.Component {
 
         // Return an error if the user has uploaded the max usage limit
         // per capsicum
-        if (this.state.files.length + e.dataTransfer.items.length >= 10) {
+        if (this.state.files.length + e.dataTransfer.items.length >= 25) {
             this.setState({
                 isErrorActive: true,
-                errorMsg: "Capsicums have a 10 photo limit!"
+                errorMsg: "Capsicums have a 25 photo limit!"
             }) 
             return;    
         }
@@ -175,10 +175,10 @@ class CapsuleMaker extends React.Component {
     addFilesFromUpload(e) {
         // Return if the user has uploaded the max usage limit
         // per capsicum
-        if (this.state.files.length + e.target.files.length >= 10) {
+        if (this.state.files.length + e.target.files.length >= 25) {
             this.setState({
                 isErrorActive: true,
-                errorMsg: "Capsicums have a 10 photo limit!"
+                errorMsg: "Capsicums have a 25 photo limit!"
             }) 
             return;    
         }
