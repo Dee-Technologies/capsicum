@@ -17,6 +17,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import SimpleCarousel from 'simple-react-carousel';
 import FadeIn from 'react-fade-in';
 
+import iconLogo from "assets/capsicumlogo.svg";
+
 class CapsuleViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -175,7 +177,8 @@ class CapsuleViewer extends React.Component {
                         <h1 className="capsicumName">{this.state.capsicumData.capsicumName}</h1>
                         <p className="tapToExpand">Tap to expand</p>
                         <div class="capsicumPosition" ref="capsicum">
-                            <ClipLoader size={200} style={{position: "absolute"}} color={"#36D7B7"} speedMultiplier={0.5}></ClipLoader>
+                            {/* <ClipLoader size={200} style={{position: "absolute"}} color={"#36D7B7"} speedMultiplier={0.5}></ClipLoader> */}
+                            <img className="capsicumLockedAnim" src={iconLogo} />
                         </div>
                     </Container> 
                 </div>
