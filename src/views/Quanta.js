@@ -1,4 +1,5 @@
 import React from 'react';
+import ColouredParticle from './ColouredParticle';
 import Particle from './Particle';
 
 // Returns a particle with given properties
@@ -52,7 +53,15 @@ class Quanta extends React.Component {
         return (
             <div style={this.props.style}>
                 {
-                    this.state.particles.map((particleImage) => {
+                    this.state.particles.map((particleImage, count) => {
+                        if (count % 3 === 0) {
+                            return (
+                                <div>
+                                    <Particle dimensions={this.props.dimensions} image={particleImage}></Particle>
+                                    <ColouredParticle/> 
+                                </div>
+                            )
+                        }
                         return (
                             <Particle dimensions={this.props.dimensions} image={particleImage}></Particle>
                         )

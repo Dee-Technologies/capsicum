@@ -75,6 +75,7 @@ class CapsuleViewer extends React.Component {
                 this.setState({
                     capsicumData: data,
                 }, () => {
+                    document.title = this.state.capsicumData.capsicumName;
                     this.getParticleImageData()
                 })
             });
