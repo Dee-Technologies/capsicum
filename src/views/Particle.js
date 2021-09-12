@@ -20,8 +20,8 @@ class Particle extends React.Component {
         this.maxSize = 6;
         this.minSize = 2;
 
-        this.maxSpeed = 0.5;
-        this.minSpeed = 0.4;
+        this.maxSpeed = 0.008;
+        this.minSpeed = 0.003;
     }
 
     componentDidMount() {

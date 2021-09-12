@@ -21,8 +21,8 @@ class Particle extends React.Component {
         this.maxSize = 3;
         this.minSize = 2;
 
-        this.maxSpeed = 0.5;
-        this.minSpeed = 0.4;
+        this.maxSpeed = 0.008;
+        this.minSpeed = 0.003;
 
         this.validColors = ["#FFF587", "#FF8C64", "#FF665A", "#7D6B7D", "#A3A1A8"]
     }
