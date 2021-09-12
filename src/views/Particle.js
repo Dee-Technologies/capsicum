@@ -11,7 +11,8 @@ class Particle extends React.Component {
             left: 50,
             size: 1,
             initialX: 0,
-            initialY: 0
+            initialY: 0,
+            particleOpacity: 0.4
         }
 
         this.maxSize = 8;
@@ -44,12 +45,25 @@ class Particle extends React.Component {
             size: size.toString() + "vh"
         }, () => {
             this.motionInterval = setInterval(() => {
-                this.setState({
-                    top: this.state.top + this.state.speed,
-                    left: this.state.left + this.state.speed,
-                }, () => {   
-                    
-                })
+
+                if ((this.state.top > window.innerHeight) || (this.state.left > window.innerWidth)
+                || (this.state.top < 0) || (this.state.left < 0)) {
+                    // We need to reset particle position
+                    const initialX = Math.floor(Math.random() * window.innerWidth);
+                    const initialY = Math.floor(Math.random() * window.innerHeight); 
+
+                    this.setState({
+                        top: initialY,
+                        left: initialX,
+                    })
+                } else {
+                    this.setState({
+                        top: this.state.top + this.state.speed,
+                        left: this.state.left + this.state.speed,
+                    }, () => {   
+                        
+                    })  
+                }
             }, 10);
         })
     }
@@ -64,10 +78,24 @@ class Particle extends React.Component {
     particleClicked() {
         console.log("you")
     }
+
+    particleEnterHover() {
+        console.log("yo")
+        this.setState({
+            particleOpacity: 1
+        })
+    }
+
+    particleExitHover() {
+        this.setState({
+            particleOpacity: 0.4
+        })
+    }
+
     render() {
         return (
-            <div style={{position: "absolute", top: this.state.top, left: this.state.left}} onClick={this.particleClicked}>
-                <img alt="" style={{width: this.state.size, height: this.state.size, borderRadius: "50%"}} ref="particle" src={this.props.image}/>
+            <div style={{position: "absolute", top: this.state.top, left: this.state.left, opacity: this.state.particleOpacity}} onClick={() => this.particleClicked()} onMouseEnter={() => this.particleEnterHover()} onMouseLeave={() => this.particleExitHover()}>
+                <img alt="" style={{width: this.state.size, height: this.state.size, backgroundSize: "contain", borderRadius: "50%"}} ref="particle" src={this.props.image}/>
             </div>
         )
     }

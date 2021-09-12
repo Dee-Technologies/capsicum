@@ -18,8 +18,10 @@ class Quanta extends React.Component {
 
         this.state = {
             images: this.props.images,
-            numParticles: 0
+            particles: []
         }
+
+        this.numParticles = 80
     }
 
     // Returns a particle with given properties
@@ -34,12 +36,28 @@ class Quanta extends React.Component {
 
     componentDidMount() {
         console.log(this.state.images)
+        let particles = []
+        // Generate particles
+        for (let i = 0; i < this.numParticles; i++) {
+            const randomImage = Math.floor(Math.random() * this.state.images.length);
+            particles.push(this.state.images[randomImage]);
+        }
+
+        this.setState({
+            particles: particles
+        })
     }
 
     render() {
         return (
-            <div>
-                <Particle image={this.state.images[0].src}></Particle>
+            <div style={this.props.style}>
+                {
+                    this.state.particles.map((particleImage) => {
+                        return (
+                            <Particle image={particleImage.src}></Particle>
+                        )
+                    })
+                }
                 {/* <DecorativeParticle/> */}
             </div>
         )
