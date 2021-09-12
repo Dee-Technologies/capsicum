@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'reactstrap';
+import { Modal, ModalBody } from 'reactstrap';
 import '../assets/scss/capsule-viewer.scss';
 
 class Particle extends React.Component {
@@ -111,20 +111,39 @@ class Particle extends React.Component {
                 <div style={{position: "absolute", top: this.state.top, left: this.state.left, opacity: this.state.particleOpacity}} onClick={() => this.particleClicked()} onMouseEnter={() => this.particleEnterHover()} onMouseLeave={() => this.particleExitHover()}>
                     <img alt="" className="particle" style={{width: this.state.size, height: this.state.size, backgroundSize: "contain", borderRadius: "50%"}} ref="particle" src={this.props.image.src}/>
                 </div>
-                <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
-                    <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "100%", height: "60vh"}} size={"lg"} centered={true}>
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            <div>
-                                <img alt="" src={this.props.image.src} style={{maxWidth: "100vh", maxHeight: "90vh", borderRadius: "10px"}}></img>
+                {this.props.dimensions === "laptop" &&
+                    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
+                        <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{width: "3000vh", height: "60vh"}} size={"lg"} centered={true}>
+                            <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "5vh"}}>
+                                <div>
+                                    <img alt="" src={this.props.image.src} style={{maxWidth: "50vh", maxHeight: "50vh", borderRadius: "10px"}}></img>
+                                </div>
+                                <div>
+                                    <h1 className="imageName">{this.props.image.name}</h1>
+                                    <br></br>
+                                    <p className="imageDescription">{this.props.image.description}</p>
+                                </div>
                             </div>
-                            <div style={{padding: "5vh"}}>
-                                <h1 className="imageName">{this.props.image.name}</h1>
-                                <br></br>
-                                <p className="imageDescription">{this.props.image.description}</p>
-                            </div>
-                        </div>
-                    </Modal>
-                </div>
+                        </Modal>
+                    </div>
+                }
+                {this.props.dimensions === "mobile" &&
+                    <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
+                        <Modal isOpen={this.state.isParticleOpen} toggle={() => this.setState({isParticleOpen: false})}  style={{display: "flex", justifyContent: "center", textAlign: "center", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} centered={true}>
+                            <ModalBody>
+                                <div style={{textAlign: "center", alignItems: "center"}}>
+                                    <div style={{paddingBottom: "2vh"}}>
+                                        <img alt="" src={this.props.image.src} style={{maxWidth: "85vw", maxHeight: "80vh", borderRadius: "10px"}}></img>
+                                    </div>
+                                    <div style={{textAlign: "center", paddingTop: "1vh"}}>
+                                        <h1 className="imageNameMobile">{this.props.image.name}</h1>
+                                        <p className="imageDescriptionMobile">{this.props.image.description}</p>
+                                    </div>
+                                </div>
+                            </ModalBody>
+                        </Modal>
+                    </div>
+                }
             </div>
         )
     }

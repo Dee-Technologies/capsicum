@@ -167,7 +167,6 @@ body {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 300;
   color: #2A1D59;
-  width: 30vh;
 }
 
 .imageNameMobile {
@@ -195,4 +194,11 @@ body {
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
+}
+
+.particleModal {
+  width: 100vh;
+  height: 10vh;
+  background-color: white;
+  z-index: 5;
 }

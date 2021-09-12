@@ -5,6 +5,8 @@ import {
 } from "reactstrap";
 import Particles from 'react-tsparticles';
 
+import Quanta from './Quanta';
+
 import '../assets/scss/capsule-viewer.scss';
 import Container from 'reactstrap/lib/Container';
 
@@ -240,7 +242,23 @@ class CapsicumViewerMobile extends React.Component {
                 </div>
                 {/* <MemoryParticles capsicumID={this.props.match.params.capsicumID}/> */}
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
-                    <FadeIn visible={this.state.transitionToParticles}>
+                    {!this.state.loadingStatus &&
+                        <Quanta 
+                            style={{
+                                visibility: this.state.particleVisiblity,
+                                position: "absolute",
+                                left: "0",
+                                top: "0",
+                                width: "100vw",
+                                height: "100vh",
+                                overflow: "hidden"
+                            }}
+
+                            images={this.state.particleImageData}
+                            dimensions="mobile"
+                        />
+                    }
+                    {/* <FadeIn visible={this.state.transitionToParticles}>
                         <Container>
                             <Particles 
                                 init={(m) => this.particlesInit(m)} 
@@ -380,7 +398,7 @@ class CapsicumViewerMobile extends React.Component {
                             }}
                             /> 
                             </Container>
-                        </FadeIn>
+                        </FadeIn> */}
                 </div>
                 {/* style={{
                             visibility: this.state.particleVisiblity,

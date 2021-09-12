@@ -250,10 +250,14 @@ class CapsuleViewer extends React.Component {
                                 visibility: this.state.particleVisiblity,
                                 position: "absolute",
                                 left: "0",
-                                top: "0"
+                                top: "0",
+                                width: "100vw",
+                                height: "100vh",
+                                overflow: "hidden"
                             }}
 
                             images={this.state.particleImageData}
+                            dimensions="laptop"
                         />
                     }
                     {/* <Quanta 

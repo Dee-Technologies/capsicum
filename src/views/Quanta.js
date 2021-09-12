@@ -54,7 +54,7 @@ class Quanta extends React.Component {
                 {
                     this.state.particles.map((particleImage) => {
                         return (
-                            <Particle image={particleImage}></Particle>
+                            <Particle dimensions={this.props.dimensions} image={particleImage}></Particle>
                         )
                     })
                 }
