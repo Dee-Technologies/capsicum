@@ -13,7 +13,6 @@ import 'firebase/database';
 import 'firebase/auth';
 
 import PacmanLoader from "react-spinners/PacmanLoader";
-import ClipLoader from "react-spinners/ClipLoader";
 import SimpleCarousel from 'simple-react-carousel';
 import FadeIn from 'react-fade-in';
 

@@ -4,6 +4,7 @@ import {
     Modal
 } from "reactstrap";
 import Particles from 'react-tsparticles';
+import Quanta from './Quanta';
 
 import '../assets/scss/capsule-viewer.scss';
 import Container from 'reactstrap/lib/Container';
@@ -243,6 +244,15 @@ class CapsuleViewer extends React.Component {
                 </div>
                 {/* <MemoryParticles capsicumID={this.props.match.params.capsicumID}/> */}
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
+                    <Quanta 
+                        style={{
+                            visibility: this.state.particleVisiblity,
+                            position: "absolute",
+                            left: "0",
+                            top: "0"
+                        }}
+                    />
+                    {/* Proper Block
                     <FadeIn visible={this.state.transitionToParticles}>
                         <Container>
                             <Particles 
@@ -383,7 +393,7 @@ class CapsuleViewer extends React.Component {
                             }}
                             /> 
                             </Container>
-                        </FadeIn>
+                        </FadeIn> */}
                     {/* <Container>
                         <Particles 
                             init={(m) => this.particlesInit(m)} 
