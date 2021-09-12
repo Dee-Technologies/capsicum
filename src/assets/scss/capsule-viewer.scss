@@ -160,15 +160,14 @@ body {
 .imageName {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 600;
-  float: right;
   color: #2A1D59;
 }
 
 .imageDescription {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 300;
-  float: right;
   color: #2A1D59;
+  width: 30vh;
 }
 
 .imageNameMobile {
@@ -181,4 +180,19 @@ body {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 300;
   color: #2A1D59;
+}
+
+
+.particle:hover {
+  transition:all 0.3s ease;
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+}
+
+.particle {
+  transition:all 0.3s ease;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
 }
