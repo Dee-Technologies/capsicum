@@ -17,7 +17,7 @@ class Quanta extends React.Component {
         super(props);
 
         this.state = {
-            images: [],
+            images: this.props.images,
             numParticles: 0
         }
     }
@@ -32,10 +32,14 @@ class Quanta extends React.Component {
         )
     }
 
+    componentDidMount() {
+        console.log(this.state.images)
+    }
+
     render() {
         return (
             <div>
-                <Particle></Particle>
+                <Particle image={this.state.images[0].src}></Particle>
                 {/* <DecorativeParticle/> */}
             </div>
         )

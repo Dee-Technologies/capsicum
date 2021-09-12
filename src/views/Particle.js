@@ -15,16 +15,25 @@ class Particle extends React.Component {
         }
 
         this.maxSize = 8;
-        this.minSize = 1;
+        this.minSize = 3;
 
-        this.maxSpeed = 1;
+        this.maxSpeed = 0.5;
+        this.minSpeed = 0.4;
     }
 
     componentDidMount() {
         const size = Math.floor(Math.random() * (this.maxSize - this.minSize + 1)) + this.minSize;
         const initialX = Math.floor(Math.random() * window.innerWidth);
         const initialY = Math.floor(Math.random() * window.innerHeight);
-        const speed = Math.random() * this.maxSpeed;
+        let speed =  Math.random() * (this.maxSpeed - this.minSpeed + 1) + this.minSpeed;
+
+        const isNegative = Math.floor(Math.random() * 2);
+
+        if (isNegative === 1) {
+            speed = speed * -1
+        }
+
+        console.log("Image: " + this.props.image)
 
         this.setState({
             top: initialY,
@@ -39,7 +48,7 @@ class Particle extends React.Component {
                     top: this.state.top + this.state.speed,
                     left: this.state.left + this.state.speed,
                 }, () => {   
-                    console.log(this.state.top, this.state.left)
+                    
                 })
             }, 10);
         })
@@ -58,7 +67,7 @@ class Particle extends React.Component {
     render() {
         return (
             <div style={{position: "absolute", top: this.state.top, left: this.state.left}} onClick={this.particleClicked}>
-                <img alt="" style={{width: this.state.size}} ref="particle" src={iconLogo}/>
+                <img alt="" style={{width: this.state.size, height: this.state.size, borderRadius: "50%"}} ref="particle" src={this.props.image}/>
             </div>
         )
     }

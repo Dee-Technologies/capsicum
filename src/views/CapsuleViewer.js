@@ -244,14 +244,28 @@ class CapsuleViewer extends React.Component {
                 </div>
                 {/* <MemoryParticles capsicumID={this.props.match.params.capsicumID}/> */}
                 <div ref="capsicumParticles"  style={{overflow: "hidden"}}>
-                    <Quanta 
+                    {!this.state.loadingStatus &&
+                        <Quanta 
+                            style={{
+                                visibility: this.state.particleVisiblity,
+                                position: "absolute",
+                                left: "0",
+                                top: "0"
+                            }}
+
+                            images={this.state.particleImageData}
+                        />
+                    }
+                    {/* <Quanta 
                         style={{
                             visibility: this.state.particleVisiblity,
                             position: "absolute",
                             left: "0",
                             top: "0"
                         }}
-                    />
+
+                        images={this.state.particleImageData}
+                    /> */}
                     {/* Proper Block
                     <FadeIn visible={this.state.transitionToParticles}>
                         <Container>
