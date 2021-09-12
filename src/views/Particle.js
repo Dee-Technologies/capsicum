@@ -17,8 +17,8 @@ class Particle extends React.Component {
             isParticleOpen: false
         }
 
-        this.maxSize = 8;
-        this.minSize = 3;
+        this.maxSize = 6;
+        this.minSize = 2;
 
         this.maxSpeed = 0.5;
         this.minSpeed = 0.4;
@@ -133,7 +133,7 @@ class Particle extends React.Component {
                             <ModalBody>
                                 <div style={{textAlign: "center", alignItems: "center"}}>
                                     <div style={{paddingBottom: "2vh"}}>
-                                        <img alt="" src={this.props.image.src} style={{maxWidth: "85vw", maxHeight: "80vh", borderRadius: "10px"}}></img>
+                                        <img alt="" src={this.props.image.src} style={{maxWidth: "85vw", maxHeight: "70vh", borderRadius: "10px"}}></img>
                                     </div>
                                     <div style={{textAlign: "center", paddingTop: "1vh"}}>
                                         <h1 className="imageNameMobile">{this.props.image.name}</h1>
