@@ -27,7 +27,7 @@ class Share extends React.Component {
 
     // Copies link for sharing
     copyShareLink() {
-        navigator.clipboard.writeText("https://dillondesilva.github.io/capsicum-production/#/viewer/" + this.props.match.params.capsicumID);
+        navigator.clipboard.writeText("https://dee-technologies.github.io/capsicum-production/#/viewer/" + this.props.match.params.capsicumID);
         this.setState({
             isCopyNotifOn: true
         })
@@ -40,7 +40,7 @@ class Share extends React.Component {
                     <div>
                         <h1 className="capsicumName" style={{textAlign: "center"}} >Thanks for Using Capsicum!</h1>
                         <p style={{textAlign: "center"}} className="dragAndDropText">Share your timeless creation with the world</p>
-                        <Input type="text" style={{textAlign: "center"}} value={"https://dillondesilva.github.io/capsicum-production/#/viewer/" + this.props.match.params.capsicumID}></Input>
+                        <Input type="text" style={{textAlign: "center"}} value={"https://dee-technologies.github.io/capsicum-production/#/viewer/" + this.props.match.params.capsicumID}></Input>
                         <br></br>
                         <div style={{textAlign: "center", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <Button onClick={() => this.viewCapsicum()}>View Capsicum</Button>  
